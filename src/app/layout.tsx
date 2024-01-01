@@ -1,67 +1,88 @@
-import { cn } from '@udecode/cn';
+import "./clerk.css";
+import "./prism.css";
 
-import { siteConfig } from '@/config/site';
-import { fontSans } from '@/lib/fonts';
-import { TooltipProvider } from '@/components/plate-ui/tooltip';
-import { SiteHeader } from '@/components/site/site-header';
-import { TailwindIndicator } from '@/components/site/tailwind-indicator';
-import { ThemeProvider } from '@/components/site/theme-provider';
+import { type Metadata } from "next";
 
-import '@/styles/globals.css';
-
-import { Metadata, Viewport } from 'next';
+import { url } from "@/lib";
+import { zhCN } from "@/lib/clerkLocalizations";
+import { sansFont } from "@/lib/font";
+import { seo } from "@/lib/seo";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/site/ThemeProvider";
 
 export const metadata: Metadata = {
+  metadataBase: seo.url,
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    template: "%s | Cali Castle",
+    default: seo.title,
   },
-  description: siteConfig.description,
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
-  },
-};
-
-export const viewport: Viewport = {
+  description: seo.description,
+  keywords: "Larthur,全栈开发者,React,Java",
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
+    { media: "(prefers-color-scheme: dark)", color: "#000212" },
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
   ],
+  manifest: "/site.webmanifest",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    title: {
+      default: seo.title,
+      template: "%s | Cali Castle",
+    },
+    description: seo.description,
+    siteName: "Larthur",
+    locale: "zh_CN",
+    type: "website",
+    url: "https://cali.so",
+  },
+  twitter: {
+    site: "@thecalicastle",
+    creator: "@thecalicastle",
+    card: "summary_large_image",
+    title: seo.title,
+    description: seo.description,
+  },
+  alternates: {
+    canonical: url("/"),
+    types: {
+      // "application/rss+xml": [{ url: "rss", title: "RSS 订阅" }],
+    },
+  },
 };
 
-interface RootLayoutProps {
+export default function RootLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+}) {
   return (
-    <>
-      <html lang="en" suppressHydrationWarning>
-        <head />
-        <body
-          className={cn(
-            'min-h-screen bg-background font-sans antialiased',
-            '[&_.slate-selected]:!bg-primary/20 [&_.slate-selection-area]:border [&_.slate-selection-area]:border-primary [&_.slate-selection-area]:bg-primary/10',
-            fontSans.variable
-          )}
-        >
-          <ThemeProvider attribute="class" defaultTheme="light">
-            <TooltipProvider
-              disableHoverableContent
-              delayDuration={500}
-              skipDelayDuration={0}
-            >
-              <div className="relative flex min-h-screen flex-col">
-                <SiteHeader />
-                <div className="flex-1">{children}</div>
-              </div>
-              <TailwindIndicator />
-            </TooltipProvider>
+    <ClerkProvider localization={zhCN}>
+      <html
+        lang="zh-CN"
+        className={`${sansFont.variable} m-0 h-full p-0 font-sans antialiased`}
+        suppressHydrationWarning
+      >
+        <body className="flex h-full flex-col">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
           </ThemeProvider>
         </body>
       </html>
-    </>
+    </ClerkProvider>
   );
 }
