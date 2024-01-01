@@ -1,37 +1,39 @@
-"use client";
+'use client';
 
+import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  GitHubBrandIcon,
+  GoogleBrandIcon,
+  MailIcon,
+  UserArrowLeftIcon,
+} from '@/assets';
+import { url } from '@/lib';
 import {
   SignedIn,
   SignedOut,
   SignInButton,
   UserButton,
   useUser,
-} from "@clerk/nextjs";
+} from '@clerk/nextjs';
 import {
   AnimatePresence,
   motion,
   useMotionTemplate,
   useMotionValue,
-} from "framer-motion";
-import { usePathname } from "next/navigation";
-import React from "react";
+} from 'framer-motion';
 
-import { NavigationBar } from "@/app/(main)/NavigationBar";
-import { ThemeSwitcher } from "@/components/site/ThemeSwitcher";
-import {
-  GitHubBrandIcon,
-  GoogleBrandIcon,
-  MailIcon,
-  UserArrowLeftIcon,
-} from "@/assets";
-import { Avatar } from "@/components/Avatar";
-import { Container } from "@/components/ui/Container";
-import { Tooltip } from "@/components/ui/Tooltip";
-import { url } from "@/lib";
-import { clamp } from "@/lib/math";
-import { clsxm } from "@/lib/helper";
+import { clsxm } from '@/lib/helper';
+import { clamp } from '@/lib/math';
+import { Container } from '@/components/ui/Container';
+import { Tooltip } from '@/components/ui/Tooltip';
+import { Avatar } from '@/components/Avatar';
+import { ThemeSwitcher } from '@/components/site/ThemeSwitcher';
+import { NavigationBar } from '@/app/(main)/NavigationBar';
+
 export function Header() {
-  const isHomePage = usePathname() === "/";
+  const isHomePage = usePathname() === '/';
 
   const headerRef = React.useRef<HTMLDivElement>(null);
   const avatarRef = React.useRef<HTMLDivElement>(null);
@@ -67,31 +69,31 @@ export function Header() {
       );
 
       if (isInitial.current) {
-        setProperty("--header-position", "sticky");
+        setProperty('--header-position', 'sticky');
       }
 
-      setProperty("--content-offset", `${downDelay}px`);
+      setProperty('--content-offset', `${downDelay}px`);
 
       if (isInitial.current || scrollY < downDelay) {
-        setProperty("--header-height", `${downDelay + height}px`);
-        setProperty("--header-mb", `${-downDelay}px`);
+        setProperty('--header-height', `${downDelay + height}px`);
+        setProperty('--header-mb', `${-downDelay}px`);
       } else if (top + height < -upDelay) {
         const offset = Math.max(height, scrollY - upDelay);
-        setProperty("--header-height", `${offset}px`);
-        setProperty("--header-mb", `${height - offset}px`);
+        setProperty('--header-height', `${offset}px`);
+        setProperty('--header-mb', `${height - offset}px`);
       } else if (top === 0) {
-        setProperty("--header-height", `${scrollY + height}px`);
-        setProperty("--header-mb", `${-scrollY}px`);
+        setProperty('--header-height', `${scrollY + height}px`);
+        setProperty('--header-mb', `${-scrollY}px`);
       }
 
       if (top === 0 && scrollY > 0 && scrollY >= downDelay) {
-        setProperty("--header-inner-position", "fixed");
-        removeProperty("--header-top");
-        removeProperty("--avatar-top");
+        setProperty('--header-inner-position', 'fixed');
+        removeProperty('--header-top');
+        removeProperty('--avatar-top');
       } else {
-        removeProperty("--header-inner-position");
-        setProperty("--header-top", "0px");
-        setProperty("--avatar-top", "0px");
+        removeProperty('--header-inner-position');
+        setProperty('--header-top', '0px');
+        setProperty('--avatar-top', '0px');
       }
     }
 
@@ -121,7 +123,7 @@ export function Header() {
       avatarBorderX.set((-toX + x) * borderScale);
       avatarBorderScale.set(borderScale);
 
-      setProperty("--avatar-border-opacity", scale === toScale ? "1" : "0");
+      setProperty('--avatar-border-opacity', scale === toScale ? '1' : '0');
     }
 
     function updateStyles() {
@@ -131,12 +133,12 @@ export function Header() {
     }
 
     updateStyles();
-    window.addEventListener("scroll", updateStyles, { passive: true });
-    window.addEventListener("resize", updateStyles);
+    window.addEventListener('scroll', updateStyles, { passive: true });
+    window.addEventListener('resize', updateStyles);
 
     return () => {
-      window.removeEventListener("scroll", updateStyles);
-      window.removeEventListener("resize", updateStyles);
+      window.removeEventListener('scroll', updateStyles);
+      window.removeEventListener('resize', updateStyles);
     };
   }, [isHomePage]);
 
@@ -156,10 +158,10 @@ export function Header() {
     <>
       <motion.header
         className={clsxm(
-          "pointer-events-none relative z-50 mb-[var(--header-mb,0px)] flex flex-col",
+          'pointer-events-none relative z-50 mb-[var(--header-mb,0px)] flex flex-col',
           isHomePage
-            ? "h-[var(--header-height,180px)]"
-            : "h-[var(--header-height,64px)]"
+            ? 'h-[var(--header-height,180px)]'
+            : 'h-[var(--header-height,64px)]'
         )}
         layout
         layoutRoot
@@ -175,19 +177,19 @@ export function Header() {
                 className="top-0 order-last -mb-3 pt-3"
                 style={{
                   position:
-                    "var(--header-position)" as React.CSSProperties["position"],
+                    'var(--header-position)' as React.CSSProperties['position'],
                 }}
               >
                 <motion.div
                   className="top-[var(--avatar-top,theme(spacing.3))] w-full select-none"
                   style={{
                     position:
-                      "var(--header-inner-position)" as React.CSSProperties["position"],
+                      'var(--header-inner-position)' as React.CSSProperties['position'],
                   }}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    type: "spring",
+                    type: 'spring',
                     damping: 30,
                     stiffness: 200,
                   }}
@@ -230,14 +232,14 @@ export function Header() {
           className="top-0 z-10 h-16 pt-6"
           style={{
             position:
-              "var(--header-position)" as React.CSSProperties["position"],
+              'var(--header-position)' as React.CSSProperties['position'],
           }}
         >
           <Container
             className="top-[var(--header-top,theme(spacing.6))] w-full"
             style={{
               position:
-                "var(--header-inner-position)" as React.CSSProperties["position"],
+                'var(--header-inner-position)' as React.CSSProperties['position'],
             }}
           >
             <div className="relative flex gap-4">
@@ -246,7 +248,7 @@ export function Header() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  type: "spring",
+                  type: 'spring',
                   damping: 30,
                   stiffness: 200,
                 }}
@@ -278,6 +280,7 @@ export function Header() {
                 <div className="pointer-events-auto">
                   <ThemeSwitcher />
                 </div>
+                <CreatePost />
               </motion.div>
               {/* 
               <AnimatePresence>
@@ -315,11 +318,11 @@ function UserInfo() {
     }
 
     switch (strategy) {
-      case "from_oauth_github":
+      case 'from_oauth_github':
         return GitHubBrandIcon as (
-          props: React.ComponentProps<"svg">
+          props: React.ComponentProps<'svg'>
         ) => JSX.Element;
-      case "from_oauth_google":
+      case 'from_oauth_google':
         return GoogleBrandIcon;
       default:
         return MailIcon;
@@ -339,7 +342,7 @@ function UserInfo() {
             afterSignOutUrl={url(pathname).href}
             appearance={{
               elements: {
-                avatarBox: "w-9 h-9 ring-2 ring-white/20",
+                avatarBox: 'w-9 h-9 ring-2 ring-white/20',
               },
             }}
           />
@@ -390,5 +393,48 @@ function UserInfo() {
         </motion.div>
       </SignedOut>
     </AnimatePresence>
+  );
+}
+function CreatePost() {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const radius = useMotionValue(0);
+  const handleMouseMove = React.useCallback(
+    ({ clientX, clientY, currentTarget }: React.MouseEvent) => {
+      const bounds = currentTarget.getBoundingClientRect();
+      mouseX.set(clientX - bounds.left);
+      mouseY.set(clientY - bounds.top);
+      radius.set(Math.sqrt(bounds.width ** 2 + bounds.height ** 2) / 2.5);
+    },
+    [mouseX, mouseY, radius]
+  );
+
+  const background = useMotionTemplate`radial-gradient(${radius}px circle at ${mouseX}px ${mouseY}px, var(--spotlight-color) 0%, transparent 65%)`;
+  return (
+    <>
+      <AnimatePresence>
+        <motion.div
+          onMouseMove={handleMouseMove}
+          className={clsxm(
+            'pointer-events-none  relative flex h-10 rounded-full transition-opacity duration-500 hover:opacity-100',
+            'rounded-full bg-gradient-to-b from-zinc-50/70 to-white/90',
+            'shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md',
+            'dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10',
+            '[--spotlight-color:rgb(236_252_203_/_0.6)] dark:[--spotlight-color:rgb(217_249_157_/_0.07)]'
+          )}
+          style={{ background }}
+          initial={{ opacity: 0, x: 25 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 25 }}
+        >
+          <Link
+            className=" bg-transparent px-3 py-2.5 text-sm font-medium text-zinc-800 dark:text-zinc-200 "
+            href={'/studio/create'}
+          >
+            创建文章
+          </Link>
+        </motion.div>
+      </AnimatePresence>
+    </>
   );
 }
