@@ -1,6 +1,7 @@
 'use server';
 
 import { Prisma } from '@prisma/client';
+// import { ColorThief } from 'colorthief';
 import { z } from 'zod';
 
 import prisma from '@/lib/prisma';
@@ -12,6 +13,8 @@ const BlogPostFormSchema = z.object({
   description: z.string({ required_error: 'Description is required' }).min(2),
   body: z.any({ required_error: 'Body is required' }),
   mainImage: z.any({ required_error: 'Main image is required' }),
+  mainImagebgColor: z.string().optional(),
+  mainImagefgColor: z.string().optional(),
   readingTime: z.coerce.number().gt(0, { message: 'Reading time is required' }),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -50,6 +53,7 @@ export const getLatestBlogPostsQuery = async ({
       id: true,
       title: true,
       slug: true,
+      readingTime: true,
       mainImage: true,
       description: true,
       createdAt: true,
@@ -110,6 +114,12 @@ export const createBlogPost = async (revState: State, data: any) => {
       },
     };
   }
+  // normal fg color
+  validData.mainImagefgColor = '#fff';
+  // set bg color
+  // const colorThief = new ColorThief();
+  // validData.mainImagebgColor = colorThief.getColor(validData.mainImage);
+  // console.log(validData.mainImagebgColor);
   // check the slug is unique
   const slugCheck = await getBlogPostsCountQuery({ slug: validData.slug });
   if (slugCheck.length > 0) {
