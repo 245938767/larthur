@@ -34,6 +34,7 @@ import { NavigationBar } from '@/app/(main)/NavigationBar';
 
 export function Header() {
   const isHomePage = usePathname() === '/';
+  const isCreatePage = usePathname() === '/studio/create';
 
   const headerRef = React.useRef<HTMLDivElement>(null);
   const avatarRef = React.useRef<HTMLDivElement>(null);
@@ -280,24 +281,8 @@ export function Header() {
                 <div className="pointer-events-auto">
                   <ThemeSwitcher />
                 </div>
-                <CreatePost />
+                {!isCreatePage && <CreatePost />}
               </motion.div>
-              {/* 
-              <AnimatePresence>
-                {!isHomePage && (
-                  <motion.div
-                    className="absolute left-14 top-1 flex h-8 items-center"
-                    initial={{ opacity: 0, scale: 0.3 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      transition: { delay: 1 },
-                    }}
-                  >
-                    <Activity />
-                  </motion.div>
-                )}
-              </AnimatePresence> */}
             </div>
           </Container>
         </div>
@@ -415,12 +400,14 @@ function CreatePost() {
 
   const background = useMotionTemplate`radial-gradient(${radius}px circle at ${mouseX}px ${mouseY}px, var(--spotlight-color) 0%, transparent 65%)`;
   const { user } = useUser();
-  if (
-    !user ||
-    user?.primaryEmailAddress?.id === 'user_2Zt2Cbqgj8S1nMqoEelOBozgqBY'
-  ) {
+  if (!user) {
     return;
   }
+  if (
+    process.env.NEXT_PUBLIC_CLERK_USER_ID != null &&
+    user?.id != process.env.NEXT_PUBLIC_CLERK_USER_ID
+  )
+    return;
   return (
     <>
       <AnimatePresence>

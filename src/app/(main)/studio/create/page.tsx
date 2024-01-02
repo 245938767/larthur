@@ -1,12 +1,45 @@
+'use client';
+
+import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
+import { AnimatePresence, motion } from 'framer-motion';
+import { proxy, useSnapshot } from 'valtio';
+
+import { clsxm } from '@/lib/helper';
 import PlateEditor from '@/components/plate-editor';
 
+export const blogPostState = proxy<{
+  title: string;
+  slug: string;
+  description: string;
+  readingTime: number;
+  body: any;
+}>({
+  title: '',
+  slug: '',
+  description: '',
+  readingTime: 0,
+  body: [
+    {
+      id: '1',
+      type: ELEMENT_PARAGRAPH,
+      children: [{ text: 'Hello, World!' }],
+    },
+  ],
+});
 export default function IndexPage() {
+  const formData = useSnapshot(blogPostState, { sync: true });
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    // Process the Markdown content
+    console.log(formData);
+    return;
+  };
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <form>
-        <div className="flex max-w-[980px] flex-col items-start gap-2">
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4 flex max-w-[980px] flex-col items-start gap-2">
           <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-            Plate Playground.
+            Create Article
           </h1>
           <p className="max-w-[700px] text-lg text-muted-foreground">
             Plugin system & primitive component library.{' '}
@@ -15,8 +48,35 @@ export default function IndexPage() {
             Ready.
           </p>
         </div>
-
-        <button type="submit">Submit</button>
+        {/** submit */}
+        {/* <div className=" mb-4 flex justify-end gap-2 md:flex-1">
+          <AnimatePresence>
+            <motion.div
+              className={clsxm(
+                ' w-20 pointer-events-auto relative flex h-10 rounded-full transition-opacity duration-500 hover:opacity-100',
+                'rounded-full bg-gradient-to-b from-zinc-50/70 to-white/90',
+                'shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md',
+                'dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10',
+                '[--spotlight-color:rgb(236_252_203_/_0.6)] dark:[--spotlight-color:rgb(217_249_157_/_0.07)]'
+              )}
+              whileHover={{ scale: 1.2, rotate: 0 }}
+              whileTap={{
+                scale: 0.8,
+                rotate: 0,
+              }}
+              initial={{ opacity: 0, x: 25 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 25 }}
+            >
+              <button
+                type="submit"
+                className=" bg-transparent px-4 py-2 text-sm font-medium hover:text-lime-600 dark:hover:text-lime-400"
+              >
+                Submit
+              </button>
+            </motion.div>
+          </AnimatePresence>
+        </div> */}
         {/** title */}
         <div className="mb-4">
           <label htmlFor="title" className="my-2 block text-sm font-medium">
@@ -26,6 +86,10 @@ export default function IndexPage() {
             <input
               id="title"
               name="title"
+              value={formData.title}
+              onChange={(e) => {
+                blogPostState.title = e.target.value;
+              }}
               placeholder="Enter title"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
             />
@@ -40,6 +104,10 @@ export default function IndexPage() {
             <input
               id="slug"
               name="slug"
+              value={formData.slug}
+              onChange={(e) => {
+                blogPostState.slug = e.target.value;
+              }}
               placeholder="Enter slug"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
             />
@@ -57,6 +125,24 @@ export default function IndexPage() {
             <input
               id="description"
               name="description"
+              value={formData.description}
+              onChange={(e) => {
+                blogPostState.description = e.target.value;
+              }}
+              placeholder="Enter description"
+              className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
+            />
+          </div>
+        </div>
+        {/** image */}
+        <div className="mb-4">
+          <label htmlFor="image" className="my-2 block text-sm font-medium">
+            Image
+          </label>
+          <div className=" mt-2 rounded-md">
+            <input
+              id="image"
+              name="image"
               placeholder="Enter description"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
             />
@@ -69,6 +155,10 @@ export default function IndexPage() {
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
               id="readingTime"
               name="readingTime"
+              value={formData.readingTime}
+              onChange={(e) => {
+                blogPostState.readingTime = Number(e.target.value);
+              }}
               step="1"
               type="number"
             />
@@ -79,7 +169,10 @@ export default function IndexPage() {
 
           <div className="max-w-[1336px] rounded-lg border bg-background shadow">
             <div className=" mt-2 rounded-md">
-              <PlateEditor />
+              <PlateEditor
+                onChange={(value) => (blogPostState.body = value)}
+                value={formData.body}
+              />
             </div>
           </div>
         </div>
