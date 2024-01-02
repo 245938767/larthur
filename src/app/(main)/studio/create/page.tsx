@@ -1,4 +1,6 @@
+/* eslint-disable jsx-a11y/role-supports-aria-props */
 'use client';
+
 import { useRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
@@ -37,6 +39,7 @@ export default function IndexPage() {
   const fileInputRef = useRef(null);
 
   const handleUploadClick = () => {
+    //@ts-ignore
     fileInputRef?.current?.click();
   };
 
@@ -113,15 +116,19 @@ export default function IndexPage() {
         </div>
         {/** title */}
         <div className="mb-4">
-          <label htmlFor="title" className="my-2 block text-sm font-medium">
+          <label htmlFor="title" className="my-2 flex text-sm font-medium">
             Title
-            <div id="customer-error" aria-live="polite" aria-atomic="true">
-              {state?.errors?.title &&
-                state.errors.title.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
+            <div id="title-error" aria-live="polite" aria-atomic="true">
+              {
+                //@ts-ignore
+                state?.errors?.title &&
+                  //@ts-ignore
+                  state.errors.title.map((error: string) => (
+                    <p className="ml-5 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))
+              }
             </div>
           </label>
           <div className=" mt-2 rounded-md">
@@ -134,13 +141,26 @@ export default function IndexPage() {
               }}
               placeholder="Enter title"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
+              aria-description="title-error"
             />
           </div>
         </div>
         {/** Slug */}
         <div className="mb-4">
-          <label htmlFor="slug" className="my-2 block text-sm font-medium">
+          <label htmlFor="slug" className="my-2 flex text-sm font-medium">
             Slug
+            <div id="slug-error" aria-live="polite" aria-atomic="true">
+              {
+                //@ts-ignore
+                state?.errors?.slug &&
+                  //@ts-ignore
+                  state.errors.slug.map((error: string) => (
+                    <p className="ml-5 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))
+              }
+            </div>
           </label>
           <div className=" mt-2 rounded-md">
             <input
@@ -152,6 +172,7 @@ export default function IndexPage() {
               }}
               placeholder="Enter slug"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
+              aria-description="slug-error"
             />
           </div>
         </div>
@@ -159,9 +180,21 @@ export default function IndexPage() {
         <div className="mb-4">
           <label
             htmlFor="description"
-            className="my-2 block text-sm font-medium"
+            className="my-2 flex text-sm font-medium"
           >
             Description
+            <div id="description-error" aria-live="polite" aria-atomic="true">
+              {
+                //@ts-ignore
+                state?.errors?.description &&
+                  //@ts-ignore
+                  state.errors.description.map((error: string) => (
+                    <p className="ml-5 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))
+              }
+            </div>
           </label>
           <div className=" mt-2 rounded-md">
             <input
@@ -173,13 +206,26 @@ export default function IndexPage() {
               }}
               placeholder="Enter description"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
+              aria-description="description-error"
             />
           </div>
         </div>
         {/** image */}
         <div className="mb-4">
-          <label htmlFor="mainImage" className="my-2 block text-sm font-medium">
+          <label htmlFor="mainImage" className="my-2 flex text-sm font-medium">
             mainImage
+            <div id="mainImage-error" aria-live="polite" aria-atomic="true">
+              {
+                //@ts-ignore
+                state?.errors?.mainImage &&
+                  //@ts-ignore
+                  state.errors.mainImage.map((error: string) => (
+                    <p className="ml-5 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))
+              }
+            </div>
           </label>
           <div className="mt-2 flex rounded-md">
             <div>
@@ -190,6 +236,7 @@ export default function IndexPage() {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
                 accept="image/*"
+                aria-description="mainImage-error"
               />
               <Button type="button" onClick={handleUploadClick}>
                 Upload image
@@ -206,8 +253,23 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
+        {/** readingTime */}
         <div className="mb-4">
-          <label className=" mt-2 block text-sm font-medium">ReadingTime</label>
+          <label className=" mt-2 flex text-sm font-medium">
+            ReadingTime
+            <div id="readingTime-error" aria-live="polite" aria-atomic="true">
+              {
+                //@ts-ignore
+                state?.errors?.readingTime &&
+                  //@ts-ignore
+                  state.errors.readingTime.map((error: string) => (
+                    <p className="ml-5 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))
+              }
+            </div>
+          </label>
           <div className=" mt-2 rounded-md">
             <input
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
@@ -219,11 +281,26 @@ export default function IndexPage() {
               }}
               step="1"
               type="number"
+              aria-description="readingTime-error"
             />
           </div>
         </div>
         <div className="mb-4">
-          <label className=" mt-2 block text-sm font-medium">Body</label>
+          <label className=" mt-2 block text-sm font-medium">
+            Body
+            <div id="body-error" aria-live="polite" aria-atomic="true">
+              {
+                //@ts-ignore
+                state?.errors?.body &&
+                  //@ts-ignore
+                  state.errors.body.map((error: string) => (
+                    <p className="ml-5 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))
+              }
+            </div>
+          </label>
 
           <div className="max-w-[1336px] rounded-lg border bg-background shadow">
             <div className=" mt-2 rounded-md">
