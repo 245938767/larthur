@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BlockContent{
+ id Int @id @default(autoincrement()) 
+ title String
+ slug String @unique
+ categories Category[]
+ description String
+ readingTime Int
+ createdAt  DateTime   @default(now())
+ updatedAt  DateTime   @updatedAt
+ published Boolean? @default(false)
+ mainImage Bytes
+ body Bytes
+}
+
+model Category {
+  id    Int     @id @default(autoincrement())
+  name String 
+  type String?
+  slug String 
+  blockContents BlockContent[]
+}
+

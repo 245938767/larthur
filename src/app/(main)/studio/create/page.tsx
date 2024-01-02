@@ -1,23 +1,29 @@
 'use client';
-
+import { useRef } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
 import { AnimatePresence, motion } from 'framer-motion';
 import { proxy, useSnapshot } from 'valtio';
 
 import { clsxm } from '@/lib/helper';
+import { Button } from '@/components/ui/Button';
 import PlateEditor from '@/components/plate-editor';
+
+import { createBlogPost } from '../../../../../prisma/queries';
 
 export const blogPostState = proxy<{
   title: string;
   slug: string;
   description: string;
   readingTime: number;
+  mainImage: any;
   body: any;
 }>({
   title: '',
   slug: '',
   description: '',
   readingTime: 0,
+  mainImage: null,
   body: [
     {
       id: '1',
@@ -27,13 +33,41 @@ export const blogPostState = proxy<{
   ],
 });
 export default function IndexPage() {
+  const initialState = { message: null, errors: {} };
+  const fileInputRef = useRef(null);
+
+  const handleUploadClick = () => {
+    fileInputRef?.current?.click();
+  };
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file === null) return;
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        blogPostState.mainImage = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const formData = useSnapshot(blogPostState, { sync: true });
   const handleSubmit = (event: any) => {
     event.preventDefault();
     // Process the Markdown content
-    console.log(formData);
+    submitData(formData as any);
     return;
   };
+
+  const { data: state, mutate: submitData } = useMutation({
+    mutationFn: (data) => createBlogPost(initialState, data),
+    mutationKey: ['data', formData],
+    onSuccess(data) {
+      console.log(data);
+    },
+  });
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <form onSubmit={handleSubmit}>
@@ -49,7 +83,7 @@ export default function IndexPage() {
           </p>
         </div>
         {/** submit */}
-        {/* <div className=" mb-4 flex justify-end gap-2 md:flex-1">
+        <div className=" mb-4 flex justify-end gap-2 md:flex-1">
           <AnimatePresence>
             <motion.div
               className={clsxm(
@@ -76,11 +110,19 @@ export default function IndexPage() {
               </button>
             </motion.div>
           </AnimatePresence>
-        </div> */}
+        </div>
         {/** title */}
         <div className="mb-4">
           <label htmlFor="title" className="my-2 block text-sm font-medium">
             Title
+            <div id="customer-error" aria-live="polite" aria-atomic="true">
+              {state?.errors?.title &&
+                state.errors.title.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
           </label>
           <div className=" mt-2 rounded-md">
             <input
@@ -136,16 +178,32 @@ export default function IndexPage() {
         </div>
         {/** image */}
         <div className="mb-4">
-          <label htmlFor="image" className="my-2 block text-sm font-medium">
-            Image
+          <label htmlFor="mainImage" className="my-2 block text-sm font-medium">
+            mainImage
           </label>
-          <div className=" mt-2 rounded-md">
-            <input
-              id="image"
-              name="image"
-              placeholder="Enter description"
-              className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
-            />
+          <div className="mt-2 flex rounded-md">
+            <div>
+              <input
+                id="mainImage"
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+              <Button type="button" onClick={handleUploadClick}>
+                Upload image
+              </Button>
+              {formData.mainImage && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  className="rounded-lg"
+                  src={formData.mainImage}
+                  alt="preview"
+                  style={{ maxWidth: '300px', marginTop: '10px' }}
+                />
+              )}
+            </div>
           </div>
         </div>
         <div className="mb-4">

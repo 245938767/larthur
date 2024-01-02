@@ -14,10 +14,12 @@
   "dependencies": {
     "@clerk/nextjs": "^4.29.1",
     "@headlessui/react": "^1.7.17",
+    "@prisma/client": "^5.7.1",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "2.0.6",
+    "@radix-ui/react-form": "^0.0.3",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-separator": "^1.0.3",
@@ -109,6 +111,7 @@
     "eslint-plugin-unused-imports": "^3.0.0",
     "postcss": "^8.4.32",
     "prettier": "^3.1.1",
+    "prisma": "^5.7.1",
     "tailwindcss": "^3.4.0",
     "typescript": "5.3.3"
   }
