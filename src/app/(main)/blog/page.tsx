@@ -2,6 +2,7 @@ import Balancer from 'react-wrap-balancer';
 
 import { Container } from '@/components/ui/Container';
 import { SocialLink } from '@/components/links/SocialLink';
+import { BlogPosts } from './BlogPosts';
 
 // import { BlogPosts } from "./BlogPosts";
 // import { createBlogPost, getLatestBlogPostsQuery } from "@/prisma/queries";
@@ -38,7 +39,7 @@ export default function BlogPage() {
         </p>
       </header>
       <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-20 lg:grid-cols-2 lg:gap-8">
-        {/* <BlogPosts limit={20} /> */}
+        <BlogPosts limit={20} />
       </div>
     </Container>
   );
