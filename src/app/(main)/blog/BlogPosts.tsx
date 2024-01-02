@@ -1,5 +1,3 @@
-import { kvKeys } from '@/config/kv';
-
 import { getLatestBlogPostsQuery } from '../../../../prisma/queries';
 import { BlogPostCard } from './BlogPostCard';
 
