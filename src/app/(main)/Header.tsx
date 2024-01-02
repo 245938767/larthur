@@ -395,6 +395,10 @@ function UserInfo() {
     </AnimatePresence>
   );
 }
+/**
+ *
+ * @returns Create post button
+ */
 function CreatePost() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -410,13 +414,20 @@ function CreatePost() {
   );
 
   const background = useMotionTemplate`radial-gradient(${radius}px circle at ${mouseX}px ${mouseY}px, var(--spotlight-color) 0%, transparent 65%)`;
+  const { user } = useUser();
+  if (
+    !user ||
+    user?.primaryEmailAddress?.id === 'user_2Zt2Cbqgj8S1nMqoEelOBozgqBY'
+  ) {
+    return;
+  }
   return (
     <>
       <AnimatePresence>
         <motion.div
           onMouseMove={handleMouseMove}
           className={clsxm(
-            'pointer-events-none  relative flex h-10 rounded-full transition-opacity duration-500 hover:opacity-100',
+            'pointer-events-auto relative flex h-10 rounded-full transition-opacity duration-500 hover:opacity-100',
             'rounded-full bg-gradient-to-b from-zinc-50/70 to-white/90',
             'shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md',
             'dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10',
@@ -428,7 +439,7 @@ function CreatePost() {
           exit={{ opacity: 0, x: 25 }}
         >
           <Link
-            className=" bg-transparent px-3 py-2.5 text-sm font-medium text-zinc-800 dark:text-zinc-200 "
+            className=" bg-transparent px-3 py-2.5 text-sm font-medium hover:text-lime-600 dark:hover:text-lime-400"
             href={'/studio/create'}
           >
             创建文章
