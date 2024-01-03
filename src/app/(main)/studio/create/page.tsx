@@ -101,6 +101,9 @@ export default function IndexPage() {
           <p className="max-w-[700px] text-lg text-muted-foreground">
             Easy to use with highly integrated editing features.{' '}
             <br className="hidden sm:inline" />
+            {state?.message && (
+              <p className="text-sm text-red-500">{state?.message}</p>
+            )}
           </p>
         </div>
         {/** submit */}
