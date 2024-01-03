@@ -1,7 +1,6 @@
 'use server';
 
 import { Prisma } from '@prisma/client';
-// import { ColorThief } from 'colorthief';
 import { z } from 'zod';
 
 import prismaClient from '@/lib/prisma';
@@ -98,6 +97,8 @@ export const createBlogPost = async (revState: State, data: any) => {
     description: data.description,
     body: data.body,
     mainImage: data.mainImage,
+    mainImagebgColor: data.mainImagebgColor,
+    mainImagefgColor: data.mainImagefgColor,
     readingTime: data.readingTime,
   });
   if (!validResult.success) {
@@ -108,20 +109,13 @@ export const createBlogPost = async (revState: State, data: any) => {
   }
   const validData = validResult.data;
 
-  if (!validData.mainImage) {
+    if (!validData.mainImage) {
     return {
       errors: {
         mainImage: ['Main image is required'],
       },
     };
   }
-  // normal fg color
-  validData.mainImagefgColor = '#fff';
-  // set bg color
-  // const colorThief = new ColorThief();
-  // validData.mainImagebgColor = colorThief.getColor(validData.mainImage);
-  validData.mainImagebgColor = '#333';
-  // console.log(validData.mainImagebgColor);
   // check the slug is unique
   const slugCheck = await getBlogPostsCountQuery({ slug: validData.slug });
   if (slugCheck.length > 0) {

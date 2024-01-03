@@ -5,10 +5,12 @@ import { useRef } from 'react';
 import { ErrorIcon, RefreshIcon, SuccessIcon } from '@/assets';
 import { useMutation } from '@tanstack/react-query';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
+import ColorThief from 'colorthief';
 import { AnimatePresence, motion } from 'framer-motion';
 import { proxy, useSnapshot } from 'valtio';
 
 import { clsxm } from '@/lib/helper';
+import { rgbToHex } from '@/lib/rgb';
 import { Button } from '@/components/ui/Button';
 import PlateEditor from '@/components/plate-editor';
 
@@ -19,6 +21,8 @@ export const blogPostState = proxy<{
   slug: string;
   description: string;
   readingTime: number;
+  mainImagebgColor?: string;
+  mainImagefgColor: string;
   mainImage: any;
   body: any;
 }>({
@@ -27,6 +31,8 @@ export const blogPostState = proxy<{
   description: '',
   readingTime: 0,
   mainImage: null,
+  mainImagebgColor: undefined,
+  mainImagefgColor: '#fff',
   body: [
     {
       id: '1',
@@ -60,6 +66,17 @@ export default function IndexPage() {
 
       reader.onloadend = () => {
         blogPostState.mainImage = reader.result;
+        const img = document.createElement('img');
+        img.onload = () => {
+          const colorThief = new (ColorThief as any)();
+          const color = (colorThief as any).getColor(img);
+          blogPostState.mainImagebgColor = rgbToHex(
+            color[0],
+            color[1],
+            color[2]
+          );
+        };
+        img.src = reader.result?.toString() ?? '';
       };
       reader.readAsDataURL(file);
     }
@@ -70,7 +87,7 @@ export default function IndexPage() {
     event.preventDefault();
     pageState.createButonState = true;
     pageState.createButon = 'Loading';
-    submitData(formData as any);
+    submitData(blogPostState as any);
     return;
   };
 
