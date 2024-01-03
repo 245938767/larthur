@@ -10,14 +10,6 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      {/* <html lang="en" suppressHydrationWarning>
-        <body
-          className={cn(
-            'min-h-screen bg-background font-sans antialiased',
-            '[&_.slate-selected]:!bg-primary/20 [&_.slate-selection-area]:border [&_.slate-selection-area]:border-primary [&_.slate-selection-area]:bg-primary/10',
-            fontSans.variable
-          )}
-        > */}
       <TooltipProvider
         disableHoverableContent
         delayDuration={500}
@@ -28,8 +20,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </div>
         <TailwindIndicator />
       </TooltipProvider>
-      {/* </body>
-      </html> */}
     </>
   );
 }

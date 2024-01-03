@@ -11,7 +11,16 @@ import moment from 'moment';
 import { prettifyNumber } from '@/lib/math';
 
 export function BlogPostCard({ post, views }: { post: any; views: number }) {
-  const { title, slug, mainImage, createdAt, categories, readingTime } = post;
+  const {
+    title,
+    slug,
+    mainImage,
+    mainImagebgColor,
+    mainImagefgColor,
+    createdAt,
+    categories,
+    readingTime,
+  } = post;
   const baseMainImage = mainImage.toString();
 
   return (
@@ -21,10 +30,8 @@ export function BlogPostCard({ post, views }: { post: any; views: number }) {
       className="group relative flex w-full transform-gpu flex-col rounded-3xl bg-transparent ring-2 ring-[--post-image-bg] transition-transform hover:-translate-y-0.5"
       style={
         {
-          // '--post-image-fg': mainImage.asset.dominant?.foreground,
-          // '--post-image-bg': mainImage.asset.dominant?.background,
-          '--post-image-fg': '#fff',
-          '--post-image-bg': '#043e8a',
+          '--post-image-fg': mainImagefgColor,
+          '--post-image-bg': mainImagebgColor,
           '--post-image': `url(${baseMainImage}`,
         } as React.CSSProperties
       }

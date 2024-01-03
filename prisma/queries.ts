@@ -4,7 +4,7 @@ import { Prisma } from '@prisma/client';
 // import { ColorThief } from 'colorthief';
 import { z } from 'zod';
 
-import prisma from '@/lib/prisma';
+import prismaClient from '@/lib/prisma';
 
 const BlogPostFormSchema = z.object({
   id: z.number(),
@@ -48,14 +48,15 @@ export const getLatestBlogPostsQuery = async ({
   limit = 5,
   forDisplay = true,
 }: GetBlogPostsOptions) => {
-  return await prisma.blockContent.findMany({
+  return await prismaClient.blockContent.findMany({
     select: {
       id: true,
       title: true,
       slug: true,
       readingTime: true,
+      mainImagebgColor: true,
+      mainImagefgColor: true,
       mainImage: true,
-      description: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -74,7 +75,7 @@ export const getLatestBlogPostsQuery = async ({
  * @returns
  */
 export const getBlogPostsCountQuery = async ({ slug }: { slug: string }) => {
-  return await prisma.blockContent.findMany({
+  return await prismaClient.blockContent.findMany({
     select: {
       slug: true,
     },
@@ -119,6 +120,7 @@ export const createBlogPost = async (revState: State, data: any) => {
   // set bg color
   // const colorThief = new ColorThief();
   // validData.mainImagebgColor = colorThief.getColor(validData.mainImage);
+  validData.mainImagebgColor = '#333';
   // console.log(validData.mainImagebgColor);
   // check the slug is unique
   const slugCheck = await getBlogPostsCountQuery({ slug: validData.slug });
@@ -135,9 +137,11 @@ export const createBlogPost = async (revState: State, data: any) => {
       validData.body = Buffer.from(JSON.stringify(validData.body));
     }
     validData.mainImage = Buffer.from(validData.mainImage);
-    return await prisma.blockContent.create({
+    await prismaClient.blockContent.create({
       data: validData as Prisma.BlockContentCreateInput,
     });
+
+    return { message: '' };
   } catch (error) {
     return {
       message: 'Database Error: Failed to Create Post.',
@@ -146,7 +150,7 @@ export const createBlogPost = async (revState: State, data: any) => {
 };
 
 export const updateBlogPost = async (data: Prisma.BlockContentUpdateInput) => {
-  return await prisma.blockContent.update({
+  return await prismaClient.blockContent.update({
     data,
     where: {
       slug: '',

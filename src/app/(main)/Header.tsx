@@ -277,11 +277,11 @@ export function Header() {
                 initial={{ opacity: 0, y: -20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
               >
+                {!isCreatePage && <CreatePost />}
                 <UserInfo />
                 <div className="pointer-events-auto">
                   <ThemeSwitcher />
                 </div>
-                {!isCreatePage && <CreatePost />}
               </motion.div>
             </div>
           </Container>
