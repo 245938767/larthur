@@ -98,6 +98,18 @@ export default function IndexPage() {
       if (data.message === '') {
         pageState.createButonState = false;
         pageState.createButon = 'Success';
+        setTimeout(() => {
+          blogPostState.title = '';
+          blogPostState.slug = '';
+          blogPostState.description = '';
+          blogPostState.readingTime = 0;
+          blogPostState.body = [];
+          blogPostState.mainImage = null;
+          blogPostState.mainImagebgColor = undefined;
+          blogPostState.mainImagefgColor = '#fff';
+          pageState.createButon = 'Normal';
+          window.location.href = '/blog';
+        }, 1000);
         return;
       }
       pageState.createButonState = false;
