@@ -87,10 +87,8 @@ export default function IndexPage() {
       pageState.createButon = 'Error';
     },
     onError(error, variables, context) {
-      console.log('error');
-      //按钮可见
+      pageState.createButonState = false;
       pageState.createButon = 'Error';
-      //按钮显示xx
     },
   });
   return (
@@ -101,10 +99,8 @@ export default function IndexPage() {
             Create Article
           </h1>
           <p className="max-w-[700px] text-lg text-muted-foreground">
-            Plugin system & primitive component library.{' '}
+            Easy to use with highly integrated editing features.{' '}
             <br className="hidden sm:inline" />
-            CLI for styled components. Customizable. Open Source. And Next.js 14
-            Ready.
           </p>
         </div>
         {/** submit */}
