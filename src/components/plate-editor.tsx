@@ -22,6 +22,7 @@ import { MentionCombobox } from '@/components/plate-ui/mention-combobox';
 export default function PlateEditor({
   value,
   onChange,
+  ...props
 }: {
   value: [];
   onChange: (value: []) => void;
@@ -31,7 +32,7 @@ export default function PlateEditor({
   return (
     <DndProvider backend={HTML5Backend}>
       <CommentsProvider users={commentsUsers} myUserId={myUserId}>
-        <Plate plugins={plugins} value={value} onChange={onChange}>
+        <Plate plugins={plugins} value={value} onChange={onChange} {...props}>
           <div
             ref={containerRef}
             className={cn(

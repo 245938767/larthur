@@ -2,6 +2,7 @@
 'use client';
 
 import { useRef } from 'react';
+import { ErrorIcon, RefreshIcon, SuccessIcon } from '@/assets';
 import { useMutation } from '@tanstack/react-query';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -34,7 +35,15 @@ export const blogPostState = proxy<{
     },
   ],
 });
+
+const pageState = proxy<{
+  createButonState: boolean;
+  createButon: 'Normal' | 'Loading' | 'Error' | 'Success';
+}>({ createButonState: false, createButon: 'Normal' });
 export default function IndexPage() {
+  const { createButonState, createButon } = useSnapshot(pageState, {
+    sync: true,
+  });
   const initialState = { message: null, errors: {} };
   const fileInputRef = useRef(null);
 
@@ -59,16 +68,29 @@ export default function IndexPage() {
   const formData = useSnapshot(blogPostState, { sync: true });
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    // Process the Markdown content
+    pageState.createButonState = true;
+    pageState.createButon = 'Loading';
     submitData(formData as any);
     return;
   };
 
-  const { data: state, mutate: submitData } = useMutation({
+  const { data: state, mutateAsync: submitData } = useMutation({
     mutationFn: (data) => createBlogPost(initialState, data),
-    mutationKey: ['data', formData],
     onSuccess(data) {
-      console.log(data);
+      //@ts-ignore
+      if (data.message === '') {
+        pageState.createButonState = false;
+        pageState.createButon = 'Success';
+        return;
+      }
+      pageState.createButonState = false;
+      pageState.createButon = 'Error';
+    },
+    onError(error, variables, context) {
+      console.log('error');
+      //按钮可见
+      pageState.createButon = 'Error';
+      //按钮显示xx
     },
   });
   return (
@@ -87,6 +109,55 @@ export default function IndexPage() {
         </div>
         {/** submit */}
         <div className=" mb-4 flex justify-end gap-2 md:flex-1">
+          <div className="mr-5 mt-3 flex ">
+            <AnimatePresence>
+              {createButon === 'Loading' && (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    ease: 'linear',
+                  }}
+                  className="  absolute "
+                >
+                  <RefreshIcon className=" justify-center  align-middle dark:fill-white" />
+                </motion.div>
+              )}
+              {createButon === 'Success' && (
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{
+                    scale: 0.8,
+                    rotate: 0,
+                  }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  initial={{ opacity: 0, x: 25 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 25 }}
+                  className="  absolute "
+                >
+                  <SuccessIcon className=" justify-center  fill-green-500 align-middle" />
+                </motion.div>
+              )}
+              {createButon === 'Error' && (
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{
+                    scale: 0.8,
+                    rotate: 0,
+                  }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  initial={{ opacity: 0, x: 25 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 25 }}
+                  className="absolute"
+                >
+                  <ErrorIcon className=" justify-center  fill-red-500 align-middle" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           <AnimatePresence>
             <motion.div
               className={clsxm(
@@ -96,16 +167,18 @@ export default function IndexPage() {
                 'dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10',
                 '[--spotlight-color:rgb(236_252_203_/_0.6)] dark:[--spotlight-color:rgb(217_249_157_/_0.07)]'
               )}
-              whileHover={{ scale: 1.2, rotate: 0 }}
+              whileHover={{ scale: 1.1 }}
               whileTap={{
                 scale: 0.8,
                 rotate: 0,
               }}
+              transition={{ type: 'spring', stiffness: 400, damping: 10 }}
               initial={{ opacity: 0, x: 25 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 25 }}
             >
               <button
+                disabled={createButonState}
                 type="submit"
                 className=" bg-transparent px-4 py-2 text-sm font-medium hover:text-lime-600 dark:hover:text-lime-400"
               >
