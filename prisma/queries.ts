@@ -43,6 +43,11 @@ type GetBlogPostsOptions = {
   offset?: number;
   forDisplay?: boolean;
 };
+/**
+ * the query list
+ * @param param0
+ * @returns
+ */
 export const getLatestBlogPostsQuery = async ({
   limit = 5,
   forDisplay = true,
@@ -65,6 +70,14 @@ export const getLatestBlogPostsQuery = async ({
     take: limit,
     orderBy: {
       createdAt: 'desc',
+    },
+  });
+};
+
+export const getBlogPostsForSlug = async ({ slug = '' }: { slug: string }) => {
+  return await prismaClient.blockContent.findFirst({
+    where: {
+      slug: slug,
     },
   });
 };
@@ -109,7 +122,7 @@ export const createBlogPost = async (revState: State, data: any) => {
   }
   const validData = validResult.data;
 
-    if (!validData.mainImage) {
+  if (!validData.mainImage) {
     return {
       errors: {
         mainImage: ['Main image is required'],
