@@ -1,62 +1,63 @@
-import "./clerk.css";
-import "./prism.css";
+import './globals.css';
+import './clerk.css';
+import './prism.css';
 
-import { type Metadata } from "next";
+import { type Metadata } from 'next';
+import { ClerkProvider } from '@clerk/nextjs';
 
-import { url } from "@/lib";
-import { zhCN } from "@/lib/clerkLocalizations";
-import { sansFont } from "@/lib/font";
-import { seo } from "@/lib/seo";
-import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/components/site/ThemeProvider";
+import { zhCN } from '@/lib/clerkLocalizations';
+import { sansFont } from '@/lib/font';
+import { seo } from '@/lib/seo';
+import { ThemeProvider } from '@/components/site/ThemeProvider';
+
+export const viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#000212' },
+    { media: '(prefers-color-scheme: light)', color: '#fafafa' },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: seo.url,
   title: {
-    template: "%s | Cali Castle",
+    template: '%s | larthur',
     default: seo.title,
   },
   description: seo.description,
-  keywords: "Larthur,全栈开发者,React,Java",
+  keywords: 'Larthur,全栈开发者,React,Java,C#',
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#000212" },
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: '(prefers-color-scheme: dark)', color: '#000212' },
+    { media: '(prefers-color-scheme: light)', color: '#fafafa' },
   ],
-  manifest: "/site.webmanifest",
+  manifest: '/site.webmanifest',
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
   },
   openGraph: {
     title: {
       default: seo.title,
-      template: "%s | Cali Castle",
+      template: '%s | Cali Castle',
     },
     description: seo.description,
-    siteName: "Larthur",
-    locale: "zh_CN",
-    type: "website",
-    url: "https://cali.so",
+    siteName: 'Larthur',
+    locale: 'zh_CN',
+    type: 'website',
+    url: 'https://cali.so',
   },
   twitter: {
-    site: "@thecalicastle",
-    creator: "@thecalicastle",
-    card: "summary_large_image",
+    site: '@thecalicastle',
+    creator: '@thecalicastle',
+    card: 'summary_large_image',
     title: seo.title,
     description: seo.description,
-  },
-  alternates: {
-    canonical: url("/"),
-    types: {
-      // "application/rss+xml": [{ url: "rss", title: "RSS 订阅" }],
-    },
   },
 };
 
