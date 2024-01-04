@@ -1,9 +1,9 @@
+import { Metadata } from 'next';
 import Balancer from 'react-wrap-balancer';
 
 import { Container } from '@/components/ui/Container';
-import { SocialLink } from '@/components/links/SocialLink';
+
 import { BlogPosts } from './BlogPosts';
-import { Metadata } from 'next';
 
 const description =
   '写博客文章是我比较喜欢的沉淀分享方式，我希望能够把好用的技术知识传递给更多的人。我比较喜欢围绕着技术为主的话题，但是也会写一些非技术的话题，比如设计、创业、企业管理、生活随笔等等。';
@@ -19,7 +19,7 @@ export const metadata = {
     description,
     card: 'summary_large_image',
   },
-}satisfies Metadata;
+} satisfies Metadata;
 
 // TODO: add pagination or infinite scroll
 export default function BlogPage() {
@@ -32,8 +32,7 @@ export default function BlogPage() {
         <p className="my-6 text-base text-zinc-600 dark:text-zinc-400">
           <Balancer>{description}</Balancer>
         </p>
-        <p className="flex items-center">
-        </p>
+        <p className="flex items-center"></p>
       </header>
       <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-20 lg:grid-cols-2 lg:gap-8">
         <BlogPosts limit={20} />

@@ -2,6 +2,7 @@
 'use client';
 
 import { useRef } from 'react';
+import { redirect } from 'next/navigation';
 import { ErrorIcon, RefreshIcon, SuccessIcon } from '@/assets';
 import { useMutation } from '@tanstack/react-query';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
@@ -99,16 +100,8 @@ export default function IndexPage() {
         pageState.createButonState = false;
         pageState.createButon = 'Success';
         setTimeout(() => {
-          blogPostState.title = '';
-          blogPostState.slug = '';
-          blogPostState.description = '';
-          blogPostState.readingTime = 0;
-          blogPostState.body = [];
-          blogPostState.mainImage = null;
-          blogPostState.mainImagebgColor = undefined;
-          blogPostState.mainImagefgColor = '#fff';
-          pageState.createButon = 'Normal';
           window.location.href = '/blog';
+          redirect(`/blog`); // Navigate to the page
         }, 1000);
         return;
       }
