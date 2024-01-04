@@ -1,36 +1,34 @@
-'use client'
+'use client';
 
+import React from 'react';
+import Image from 'next/image';
+import { ExternalLinkIcon } from '@/assets';
 import {
   AnimatePresence,
+  motion,
   useMotionTemplate,
   useMotionValue,
-} from 'framer-motion'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import React from 'react'
+} from 'framer-motion';
 
-import { ExternalLinkIcon } from '@/assets'
-import { Card } from '@/components/ui/Card'
-import { urlForImage } from '@/sanity/lib/image'
-import { type Project } from '@/sanity/schemas/project'
+import { Card } from '@/components/ui/Card';
 
-export function ProjectCard({ project }: { project: Project }) {
-  const { _id, url, icon, name, description } = project
+export function ProjectCard({ project }: { project: any }) {
+  const { _id, url, icon, name, description } = project;
 
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  const radius = useMotionValue(0)
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const radius = useMotionValue(0);
   const handleMouseMove = React.useCallback(
     ({ clientX, clientY, currentTarget }: React.MouseEvent) => {
-      const bounds = currentTarget.getBoundingClientRect()
-      mouseX.set(clientX - bounds.left)
-      mouseY.set(clientY - bounds.top)
-      radius.set(Math.sqrt(bounds.width ** 2 + bounds.height ** 2) / 2)
+      const bounds = currentTarget.getBoundingClientRect();
+      mouseX.set(clientX - bounds.left);
+      mouseY.set(clientY - bounds.top);
+      radius.set(Math.sqrt(bounds.width ** 2 + bounds.height ** 2) / 2);
     },
     [mouseX, mouseY, radius]
-  )
-  const maskBackground = useMotionTemplate`radial-gradient(circle ${radius}px at ${mouseX}px ${mouseY}px, black 40%, transparent)`
-  const [isHovering, setIsHovering] = React.useState(false)
+  );
+  const maskBackground = useMotionTemplate`radial-gradient(circle ${radius}px at ${mouseX}px ${mouseY}px, black 40%, transparent)`;
+  const [isHovering, setIsHovering] = React.useState(false);
 
   return (
     <Card
@@ -42,7 +40,7 @@ export function ProjectCard({ project }: { project: Project }) {
     >
       <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
         <Image
-          src={urlForImage(icon)?.size(100, 100).auto('format').url()}
+          src={project.icon}
           alt=""
           width={36}
           height={36}
@@ -72,7 +70,7 @@ export function ProjectCard({ project }: { project: Project }) {
             }}
             exit={{ opacity: 0 }}
           >
-            <div className="absolute inset-x-px inset-y-px rounded-2xl border border-dashed border-zinc-900/30 dark:border-zinc-100/20" />
+            <div className="absolute inset-px rounded-2xl border border-dashed border-zinc-900/30 dark:border-zinc-100/20" />
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-zinc-900/20 bg-white dark:border-zinc-100/20 dark:bg-zinc-800">
               <div className="h-9 w-9 rounded-full border border-dashed border-zinc-900/40 dark:border-zinc-100/60 dark:bg-zinc-900/20" />
             </div>
@@ -86,5 +84,5 @@ export function ProjectCard({ project }: { project: Project }) {
         )}
       </AnimatePresence>
     </Card>
-  )
+  );
 }

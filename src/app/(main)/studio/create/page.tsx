@@ -16,7 +16,7 @@ import PlateEditor from '@/components/plate-editor';
 
 import { createBlogPost } from '../../../../../prisma/queries';
 
-export const blogPostState = proxy<{
+const blogPostState = proxy<{
   title: string;
   slug: string;
   description: string;

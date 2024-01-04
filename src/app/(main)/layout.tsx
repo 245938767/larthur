@@ -1,8 +1,8 @@
-import "./globals.css";
-import { QueryProvider } from "../QueryProvider";
-import { Suspense } from "react";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
+import { Suspense } from 'react';
+
+import { QueryProvider } from '../QueryProvider';
+import { Footer } from './Footer';
+import { Header } from './Header';
 
 export default function BlogLayout({
   children,
