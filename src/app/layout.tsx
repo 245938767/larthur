@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     siteName: 'Larthur',
     locale: 'zh_CN',
     type: 'website',
-    url: 'https://cali.so',
+    url: 'https://larthur.vercel.app',
   },
   twitter: {
     site: '@thecalicastle',

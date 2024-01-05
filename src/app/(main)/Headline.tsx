@@ -97,12 +97,12 @@ export function Headline() {
         }}
       >
         <SocialLink
-          href="https://cali.so/github"
+          href="https://larthur.vercel.app/github"
           aria-label="我的 GitHub"
           platform="github"
         />
         <SocialLink
-          href="https://cali.so/tg"
+          href="https://larthur.vercel.app/tg"
           aria-label="我的 Telegram"
           platform="telegram"
         />
