@@ -49,9 +49,6 @@ export default async function BlogPage({
   let reactions: number[] = [];
 
   let relatedViews: number[] = [];
-  console.log('setPost');
-  console.log(post);
-  console.log(JSON.parse(post.body.toString('utf-8')));
   return (
     <BlogPostPage
       post={post}

@@ -17,7 +17,7 @@ export default authMiddleware({
     // If the user is logged in and trying to access a protected route, allow them to access route
     if (auth.userId && !auth.isPublicRoute) {
       // If the user is admin, allow them to access route
-      if (req.nextUrl.pathname === '/studio/create') {
+      if (req.nextUrl.pathname.includes('/dashboard')) {
         if (process.env.NEXT_PUBLIC_CLERK_USER_ID === auth.userId) {
           return NextResponse.next();
         } else {

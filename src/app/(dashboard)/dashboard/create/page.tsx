@@ -2,7 +2,6 @@
 'use client';
 
 import { useRef } from 'react';
-import { redirect } from 'next/navigation';
 import { ErrorIcon, RefreshIcon, SuccessIcon } from '@/assets';
 import { useMutation } from '@tanstack/react-query';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
@@ -16,6 +15,7 @@ import { Button } from '@/components/ui/Button';
 import PlateEditor from '@/components/plate-editor';
 
 import { createBlogPost } from '../../../../../prisma/queries';
+import { useRouter } from 'next/navigation';
 
 const blogPostState = proxy<{
   title: string;
@@ -48,6 +48,8 @@ const pageState = proxy<{
   createButon: 'Normal' | 'Loading' | 'Error' | 'Success';
 }>({ createButonState: false, createButon: 'Normal' });
 export default function IndexPage() {
+  const router = useRouter();
+
   const { createButonState, createButon } = useSnapshot(pageState, {
     sync: true,
   });
@@ -100,8 +102,7 @@ export default function IndexPage() {
         pageState.createButonState = false;
         pageState.createButon = 'Success';
         setTimeout(() => {
-          window.location.href = '/blog';
-          redirect(`/blog`); // Navigate to the page
+          router.push('/dashboard');
         }, 1000);
         return;
       }

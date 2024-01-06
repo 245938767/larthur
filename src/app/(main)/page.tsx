@@ -6,7 +6,6 @@ import { BlogPosts } from './blog/BlogPosts';
 import { Headline } from './Headline';
 import { Photos } from './Photos';
 
-// import { BlogPosts } from "./blog/BlogPosts";
 
 export default function BlogHomePage() {
   return (

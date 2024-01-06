@@ -34,7 +34,7 @@ import { NavigationBar } from '@/app/(main)/NavigationBar';
 
 export function Header() {
   const isHomePage = usePathname() === '/';
-  const isCreatePage = usePathname() === '/studio/create';
+  const isCreatePage = usePathname().includes('/dashboard');
 
   const headerRef = React.useRef<HTMLDivElement>(null);
   const avatarRef = React.useRef<HTMLDivElement>(null);
@@ -277,7 +277,7 @@ export function Header() {
                 initial={{ opacity: 0, y: -20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
               >
-                {!isCreatePage && <CreatePost />}
+                {!isCreatePage && <DashboardButton />}
                 <UserInfo />
                 <div className="pointer-events-auto">
                   <ThemeSwitcher />
@@ -384,7 +384,7 @@ function UserInfo() {
  *
  * @returns Create post button
  */
-function CreatePost() {
+function DashboardButton() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const radius = useMotionValue(0);
@@ -427,9 +427,9 @@ function CreatePost() {
         >
           <Link
             className=" bg-transparent px-3 py-2.5 text-sm font-medium hover:text-lime-600 dark:hover:text-lime-400"
-            href={'/studio/create'}
+            href={'/dashboard'}
           >
-            创建文章
+            控制台
           </Link>
         </motion.div>
       </AnimatePresence>
