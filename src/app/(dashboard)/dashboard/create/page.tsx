@@ -14,7 +14,7 @@ import { rgbToHex } from '@/lib/rgb';
 import { Button } from '@/components/ui/Button';
 import PlateEditor from '@/components/plate-editor';
 
-import { createBlogPost } from '../../../../../prisma/queries';
+import { createBlogPost } from './queries';
 import { useRouter } from 'next/navigation';
 
 const blogPostState = proxy<{

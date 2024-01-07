@@ -3,31 +3,46 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model BlockContent {
-  id               Int        @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   title            String
-  slug             String     @unique
+  /// router tag
+  slug             String   @unique
   description      String
   readingTime      Int
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
-  published        Boolean?   @default(false)
+  published        Boolean? @default(false)
   mainImage        Bytes
+  mainImageUrl     String?
+  /// article content
   body             Bytes
+  /// current article visits
+  articleVistis    Int      @default(0)
   mainImagebgColor String?
   mainImagefgColor String?
-  categories       Category[] @relation("BlockContentToCategory")
+  categoryId       Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([categoryId])
 }
 
 model Category {
-  id            Int            @id @default(autoincrement())
-  name          String
-  type          String?
-  slug          String
-  blockContents BlockContent[] @relation("BlockContentToCategory")
+  id   Int     @id @default(autoincrement())
+  name String  @unique
+  type String?
+  slug String
+}
+
+model SiteVistis {
+  id            Int      @id @default(autoincrement())
+  /// Daily site visits
+  siteVistis    Int      @default(0)
+  /// Daily article visits
+  articleVistis Int      @default(0)
+  /// daily
+  recordingTime DateTime
 }
