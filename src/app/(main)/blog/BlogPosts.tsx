@@ -1,4 +1,4 @@
-import { getLatestBlogPostsQuery } from '../../(dashboard)/dashboard/create/queries';
+import { getLatestBlogPostsQuery } from '@/api/postsApi';
 import { BlogPostCard } from './BlogPostCard';
 
 export async function BlogPosts({ limit = 5 }) {

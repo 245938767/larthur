@@ -8,7 +8,7 @@ const DataGrowthCard = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'rounded-lg border bg-card text-card-foreground shadow-sm',
+      'rounded-lg border bg-card p-4 text-card-foreground shadow-sm',
       className
     )}
     {...props}
@@ -22,7 +22,10 @@ const DataGrowthCardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('flex flex-col space-y-1.5 p-6', className)}
+    className={cn(
+      'flex flex-row items-center justify-between space-y-0 ',
+      className
+    )}
     {...props}
   />
 ));
@@ -35,7 +38,7 @@ const DataGrowthCardTitle = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      'text-2xl font-semibold leading-none tracking-tight',
+      'text-sm font-semibold leading-none tracking-tight',
       className
     )}
     {...props}
@@ -43,23 +46,30 @@ const DataGrowthCardTitle = React.forwardRef<
 ));
 DataGrowthCardTitle.displayName = 'CardTitle';
 
-const DataGrowthCardDescription = React.forwardRef<
+const DataGrowthCardIcon = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
+    className={cn('  text-muted-foreground', className)}
     {...props}
   />
 ));
-DataGrowthCardDescription.displayName = 'CardDescription';
+DataGrowthCardIcon.displayName = 'CardDescription';
 
 const DataGrowthCardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+  <div
+    ref={ref}
+    className={cn(
+      ' py-3  text-2xl font-semibold leading-none tracking-tight',
+      className
+    )}
+    {...props}
+  />
 ));
 DataGrowthCardContent.displayName = 'CardContent';
 
@@ -69,7 +79,7 @@ const DataGrowthCardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('flex items-center p-6 pt-0', className)}
+    className={cn(' flex items-center pt-0 text-xs', className)}
     {...props}
   />
 ));
@@ -80,6 +90,6 @@ export {
   DataGrowthCardHeader,
   DataGrowthCardFooter,
   DataGrowthCardTitle,
-  DataGrowthCardDescription,
+  DataGrowthCardIcon,
   DataGrowthCardContent,
 };

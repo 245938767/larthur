@@ -1,7 +1,7 @@
 import { type Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { getBlogPostsForSlug } from '@/api/postsApi';
 
-import { getBlogPostsForSlug } from '../../../(dashboard)/dashboard/create/queries';
 import { BlogPostPage } from '../BlogPostPage';
 
 export const generateMetadata = async ({

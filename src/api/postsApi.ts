@@ -1,6 +1,7 @@
 'use server';
 
 import { Prisma } from '@prisma/client';
+import moment from 'moment';
 import { z } from 'zod';
 
 import prismaClient from '@/lib/prisma';
@@ -163,4 +164,45 @@ export const updateBlogPost = async (data: Prisma.BlockContentUpdateInput) => {
       slug: '',
     },
   });
+};
+
+export const getPostCurrentTotalNum = async () => {
+  const startOfMonth = new Date(
+    moment().clone().startOf('month').format('YYYY-MM-DD hh:mm:ss')
+  );
+  const endOfMonth = new Date(
+    moment().clone().endOf('month').format('YYYY-MM-DD hh:mm:ss')
+  );
+  const currentMonthCount = await prismaClient.blockContent.count({
+    where: {
+      createdAt: {
+        gte: startOfMonth,
+        lte: endOfMonth,
+      },
+    },
+  });
+  const lastMonthCount = await prismaClient.blockContent.count({
+    where: {
+      createdAt: {
+        gte: new Date(
+          moment()
+            .clone()
+            .subtract(1, 'month')
+            .startOf('month')
+            .format('YYYY-MM-DD hh:mm:ss')
+        ),
+        lte: new Date(
+          moment()
+            .clone()
+            .subtract(1, 'month')
+            .endOf('month')
+            .format('YYYY-MM-DD hh:mm:ss')
+        ),
+      },
+    },
+  });
+  return {
+    currentMonthCount,
+    lastMonthCount,
+  };
 };

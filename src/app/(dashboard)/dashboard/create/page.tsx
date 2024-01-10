@@ -2,6 +2,8 @@
 'use client';
 
 import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { createBlogPost } from '@/api/postsApi';
 import { ErrorIcon, RefreshIcon, SuccessIcon } from '@/assets';
 import { useMutation } from '@tanstack/react-query';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
@@ -13,9 +15,6 @@ import { clsxm } from '@/lib/helper';
 import { rgbToHex } from '@/lib/rgb';
 import { Button } from '@/components/ui/Button';
 import PlateEditor from '@/components/plate-editor';
-
-import { createBlogPost } from './queries';
-import { useRouter } from 'next/navigation';
 
 const blogPostState = proxy<{
   title: string;

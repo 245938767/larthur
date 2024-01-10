@@ -1,40 +1,57 @@
+import { getPostCurrentTotalNum } from '@/api/postsApi';
+import { AtomIcon } from '@/assets';
+
+import { Container } from '@/components/ui/Container';
 import {
   DataGrowthCard,
-  DataGrowthCardDescription,
+  DataGrowthCardContent,
+  DataGrowthCardFooter,
   DataGrowthCardHeader,
+  DataGrowthCardIcon,
   DataGrowthCardTitle,
 } from '@/components/ui/DataGrowthCard';
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const { currentMonthCount, lastMonthCount } = await getPostCurrentTotalNum();
   return (
-    <div>
+    <Container className="mt-10">
       <div className="flex">
         <DataGrowthCard className="m-4 w-[350px]">
           <DataGrowthCardHeader>
-            <DataGrowthCardTitle>Create project</DataGrowthCardTitle>
-            <DataGrowthCardDescription>
-              Deploy your new project in one-click.
-            </DataGrowthCardDescription>
+            <DataGrowthCardTitle>Site Visits</DataGrowthCardTitle>
+            <DataGrowthCardIcon>
+              <AtomIcon />
+            </DataGrowthCardIcon>
           </DataGrowthCardHeader>
+          <DataGrowthCardContent>+1000</DataGrowthCardContent>
+          <DataGrowthCardFooter>0%&ensp;from last month</DataGrowthCardFooter>
         </DataGrowthCard>
 
         <DataGrowthCard className="m-4 w-[350px]">
           <DataGrowthCardHeader>
-            <DataGrowthCardTitle>Create project</DataGrowthCardTitle>
-            <DataGrowthCardDescription>
-              Deploy your new project in one-click.
-            </DataGrowthCardDescription>
+            <DataGrowthCardTitle>Article Count</DataGrowthCardTitle>
+            <DataGrowthCardIcon>
+              <AtomIcon />
+            </DataGrowthCardIcon>
           </DataGrowthCardHeader>
+          <DataGrowthCardContent>+{currentMonthCount}</DataGrowthCardContent>
+          <DataGrowthCardFooter>
+            {((currentMonthCount - lastMonthCount) / currentMonthCount || 0) ??
+              0}
+            %&ensp;from last month
+          </DataGrowthCardFooter>
         </DataGrowthCard>
         <DataGrowthCard className="m-4 w-[350px]">
           <DataGrowthCardHeader>
             <DataGrowthCardTitle>Create project</DataGrowthCardTitle>
-            <DataGrowthCardDescription>
-              Deploy your new project in one-click.
-            </DataGrowthCardDescription>
+            <DataGrowthCardIcon>
+              <AtomIcon />
+            </DataGrowthCardIcon>
           </DataGrowthCardHeader>
+          <DataGrowthCardContent>+1000</DataGrowthCardContent>
+          <DataGrowthCardFooter>0%&ensp;from last month</DataGrowthCardFooter>
         </DataGrowthCard>
       </div>
-    </div>
+    </Container>
   );
 }
