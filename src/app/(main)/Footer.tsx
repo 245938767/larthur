@@ -1,10 +1,11 @@
-import { CursorClickIcon, UsersIcon } from "@/assets";
-import { Container } from "@/components/ui/Container";
-import { navigationItems } from "@/config/nav";
-import { prettifyNumber } from "@/lib/math";
-import Link from "next/link";
-import { env } from "process";
-import React from "react";
+import { env } from 'process';
+import React from 'react';
+import Link from 'next/link';
+import { CursorClickIcon, UsersIcon } from '@/assets';
+
+import { navigationItems } from '@/config/nav';
+import { prettifyNumber } from '@/lib/math';
+import { Container } from '@/components/ui/Container';
 
 function NavLink({
   href,
@@ -35,7 +36,7 @@ function Links() {
 }
 function TotalPageViews() {
   let views: number;
-  if (env.VERCEL_ENV === "production") {
+  if (env.VERCEL_ENV === 'production') {
     views = 1;
   } else {
     views = 345678;
@@ -44,7 +45,7 @@ function TotalPageViews() {
   return (
     <span className="flex items-center justify-center gap-1 text-xs text-zinc-500 dark:text-zinc-400 md:justify-start">
       <UsersIcon className="h-4 w-4" />
-      <span title={`${Intl.NumberFormat("en-US").format(views)}次浏览`}>
+      <span title={`${Intl.NumberFormat('en-US').format(views)}次浏览`}>
         总浏览量&nbsp;
         <span className="font-medium">{prettifyNumber(views, true)}</span>
       </span>
@@ -58,7 +59,7 @@ type VisitorGeolocation = {
 };
 async function LastVisitorInfo() {
   let lastVisitor: VisitorGeolocation | undefined = undefined;
-  if (env.VERCEL_ENV === "production") {
+  if (env.VERCEL_ENV === 'production') {
     // const [lv, cv] = await redis.mget<VisitorGeolocation[]>(
     //   kvKeys.lastVisitor,
     //   kvKeys.currentVisitor
@@ -69,8 +70,8 @@ async function LastVisitorInfo() {
 
   if (!lastVisitor) {
     lastVisitor = {
-      country: "US",
-      flag: "🇺🇸",
+      country: 'US',
+      flag: '🇺🇸',
     };
   }
 
@@ -79,7 +80,7 @@ async function LastVisitorInfo() {
       <CursorClickIcon className="h-4 w-4" />
       <span>
         最近访客来自&nbsp;
-        {[lastVisitor.city, lastVisitor.country].filter(Boolean).join(", ")}
+        {[lastVisitor.city, lastVisitor.country].filter(Boolean).join(', ')}
       </span>
       <span className="font-medium">{lastVisitor.flag}</span>
     </span>

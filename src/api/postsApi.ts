@@ -1,6 +1,6 @@
 'use server';
 
-import { Prisma } from '@prisma/client';
+import { BlockContent, Prisma } from '@prisma/client';
 import moment from 'moment';
 import { z } from 'zod';
 
@@ -15,6 +15,7 @@ const BlogPostFormSchema = z.object({
   mainImage: z.any({ required_error: 'Main image is required' }),
   mainImagebgColor: z.string().optional(),
   mainImagefgColor: z.string().optional(),
+  categoryId: z.number(),
   readingTime: z.coerce.number().gt(0, { message: 'Reading time is required' }),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -64,6 +65,7 @@ export const getLatestBlogPostsQuery = async ({
       mainImage: true,
       createdAt: true,
       updatedAt: true,
+      Category: true,
     },
     // where:{
     //   published:true
@@ -77,6 +79,9 @@ export const getLatestBlogPostsQuery = async ({
 
 export const getBlogPostsForSlug = async ({ slug = '' }: { slug: string }) => {
   return await prismaClient.blockContent.findFirst({
+    include: {
+      Category: true,
+    },
     where: {
       slug: slug,
     },
@@ -110,6 +115,7 @@ export const createBlogPost = async (revState: State, data: any) => {
     slug: data.slug,
     description: data.description,
     body: data.body,
+    categoryId: data.categoryId,
     mainImage: data.mainImage,
     mainImagebgColor: data.mainImagebgColor,
     mainImagefgColor: data.mainImagefgColor,
@@ -146,7 +152,7 @@ export const createBlogPost = async (revState: State, data: any) => {
     }
     validData.mainImage = Buffer.from(validData.mainImage);
     await prismaClient.blockContent.create({
-      data: validData as Prisma.BlockContentCreateInput,
+      data: validData as BlockContent,
     });
 
     return { message: '' };

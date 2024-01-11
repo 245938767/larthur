@@ -25,12 +25,7 @@ import { Container } from '@/components/ui/Container';
 import { Editor } from '@/components/plate-ui/editor';
 import { TooltipProvider } from '@/components/plate-ui/tooltip';
 
-// import { PostPortableText } from '@/components/PostPortableText';
-// import { Prose } from '@/components/Prose';
-
 import { BlogPostCard } from './BlogPostCard';
-
-// import { BlogPostTableOfContents } from './BlogPostTableOfContents';
 
 export function BlogPostPage({
   post,
@@ -60,7 +55,7 @@ export function BlogPostPage({
             href="/blog"
             variant="secondary"
             aria-label="返回博客页面"
-            className="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition lg:absolute lg:-left-5 lg:-mt-2 lg:mb-0 xl:-top-1.5 xl:left-0 xl:mt-0 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20"
+            className="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:-mt-2 lg:mb-0 xl:-top-1.5 xl:left-0 xl:mt-0"
           >
             <UTurnLeftIcon className="h-8 w-8 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400" />
           </Button>
@@ -77,7 +72,7 @@ export function BlogPostPage({
                   damping: 20,
                 }}
               >
-                <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 md:block md:after:block dark:after:bg-black/50">
+                <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/50 md:block md:after:block">
                   <Image
                     src={mainImage}
                     alt=""
@@ -90,7 +85,7 @@ export function BlogPostPage({
                 <Image
                   src={mainImage}
                   alt={post.title}
-                  className="select-none rounded-2xl ring-1 ring-zinc-900/5 transition md:rounded-3xl dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20"
+                  className="select-none rounded-2xl ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 md:rounded-3xl"
                   placeholder="blur"
                   blurDataURL={mainImage}
                   unoptimized
@@ -118,11 +113,11 @@ export function BlogPostPage({
                 </time>
                 <span className="inline-flex items-center space-x-1.5">
                   <ScriptIcon />
-                  {/* <span>{post.categories.join(', ')}</span> */}
+                  <span>{post.Category?.name}</span>
                 </span>
               </motion.div>
               <motion.h1
-                className="mt-6 w-full text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100"
+                className="mt-6 w-full text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -175,9 +170,6 @@ export function BlogPostPage({
                 </span>
               </motion.div>
             </header>
-            {/* <Prose className="mt-8">
-              <PostPortableText value={post.body} />
-            </Prose> */}
 
             <TooltipProvider
               disableHoverableContent

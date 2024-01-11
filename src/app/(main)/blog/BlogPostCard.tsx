@@ -18,7 +18,7 @@ export function BlogPostCard({ post, views }: { post: any; views: number }) {
     mainImagebgColor,
     mainImagefgColor,
     createdAt,
-    categories,
+    Category,
     readingTime,
   } = post;
   const baseMainImage = mainImage.toString();
@@ -59,10 +59,10 @@ export function BlogPostCard({ post, views }: { post: any; views: number }) {
               <span>{moment(createdAt).format('YYYY-MM-DD')}</span>
             </span>
 
-            {Array.isArray(categories) && (
+            {Category && (
               <span className="inline-flex items-center space-x-1 text-[12px] font-medium text-[--post-image-fg] md:text-sm">
                 <ScriptIcon />
-                <span>{categories.join(', ')}</span>
+                <span>{Category.name}</span>
               </span>
             )}
           </span>
