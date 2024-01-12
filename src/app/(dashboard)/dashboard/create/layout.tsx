@@ -1,8 +1,6 @@
 import { TooltipProvider } from '@/components/plate-ui/tooltip';
 import { TailwindIndicator } from '@/components/site/tailwind-indicator';
 
-import '@/styles/globals.css';
-
 interface RootLayoutProps {
   children: React.ReactNode;
 }

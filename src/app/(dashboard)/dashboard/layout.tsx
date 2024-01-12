@@ -1,6 +1,4 @@
-import '../../globals.css';
-import '../../clerk.css';
-import '../../prism.css';
+import '@/styles/globals.css';
 
 import { Suspense } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
