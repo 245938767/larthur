@@ -18,6 +18,7 @@ import { proxy, useSnapshot } from 'valtio';
 import { clsxm } from '@/lib/helper';
 import { rgbToHex } from '@/lib/rgb';
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/input';
 import PlateEditor from '@/components/plate-editor';
 
 const blogPostState = proxy<{
@@ -250,7 +251,7 @@ export default function IndexPage() {
             </div>
           </label>
           <div className=" mt-2 rounded-md">
-            <input
+            <Input
               id="title"
               name="title"
               value={formData.title}
@@ -344,17 +345,6 @@ export default function IndexPage() {
                 </Transition>
               </div>
             </Listbox>
-            {/* <input
-              id="categoryId"
-              name="categoryId"
-              value={formData.slug}
-              onChange={(e) => {
-                blogPostState.slug = e.target.value;
-              }}
-              placeholder="Enter slug"
-              className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
-              aria-description="slug-error"
-            /> */}
           </div>
         </div>
         {/** Slug */}
@@ -375,7 +365,7 @@ export default function IndexPage() {
             </div>
           </label>
           <div className=" mt-2 rounded-md">
-            <input
+            <Input
               id="slug"
               name="slug"
               value={formData.slug}
@@ -409,7 +399,7 @@ export default function IndexPage() {
             </div>
           </label>
           <div className=" mt-2 rounded-md">
-            <input
+            <Input
               id="description"
               name="description"
               value={formData.description}
@@ -441,7 +431,7 @@ export default function IndexPage() {
           </label>
           <div className="mt-2 flex rounded-md">
             <div>
-              <input
+              <Input
                 id="mainImage"
                 type="file"
                 ref={fileInputRef}
@@ -483,7 +473,7 @@ export default function IndexPage() {
             </div>
           </label>
           <div className=" mt-2 rounded-md">
-            <input
+            <Input
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
               id="readingTime"
               name="readingTime"
