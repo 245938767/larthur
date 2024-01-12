@@ -18,7 +18,6 @@ export async function getCategoryAllMany(): Promise<CategoryWithCount[]> {
       },
     },
   });
-  console.log(categoriesWithCount);
   const result: CategoryWithCount[] = categoriesWithCount.map((category) => {
     return {
       ...category,

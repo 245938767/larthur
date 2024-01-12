@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 'use client';
 
-import { Fragment, useMemo, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCategorys } from '@/api/categoryApi';
 import { createBlogPost } from '@/api/postsApi';
@@ -69,9 +69,10 @@ export default function IndexPage() {
     }
   );
 
-  useMemo(async () => {
-    pageState.categorySelect = await getCategorys();
-    console.log(categorySelect);
+  useEffect(() => {
+    getCategorys().then((res) => {
+      pageState.categorySelect = res;
+    });
   }, []);
 
   const initialState = { message: null, errors: {} };
@@ -264,7 +265,7 @@ export default function IndexPage() {
         </div>
         {/** Category */}
         <div className="mb-4">
-          <label htmlFor="categoryId" className="my-2 flex text-sm font-medium">
+          <label className="my-2 flex text-sm font-medium">
             Category
             <div id="category-error" aria-live="polite" aria-atomic="true">
               {
@@ -312,7 +313,7 @@ export default function IndexPage() {
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? 'bg-amber-100 text-amber-900'
+                              ? 'bg-lime-500 text-lime-900'
                               : 'text-gray-900'
                           }`
                         }
