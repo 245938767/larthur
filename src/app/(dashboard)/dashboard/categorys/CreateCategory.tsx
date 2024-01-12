@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { createCategory } from '@/api/categoryApi';
-import { MoonIcon } from '@/assets';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -83,9 +82,13 @@ export default function CreateCategory() {
     <div className=" mb-2">
       <Popover open={open} onOpenChange={theOpneChange}>
         <PopoverTrigger asChild>
-          {/* <Button className="rounded-full">Create</Button> */}
-          <div>
-            <MoonIcon />
+          <div className="mb-1">
+            <a
+              className="group rounded-full bg-gradient-to-b from-zinc-50/50 to-white/90 px-3 py-2 shadow-sm shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:from-zinc-900/50 dark:to-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
+              href="#"
+            >
+              Create
+            </a>
           </div>
         </PopoverTrigger>
         <PopoverContent className="bg-white dark:bg-black">
