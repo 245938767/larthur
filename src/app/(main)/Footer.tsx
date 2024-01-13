@@ -3,8 +3,10 @@ import React from 'react';
 import Link from 'next/link';
 import { CursorClickIcon, UsersIcon } from '@/assets';
 
+import { kvKeys } from '@/config/kv';
 import { navigationItems } from '@/config/nav';
 import { prettifyNumber } from '@/lib/math';
+import redis from '@/lib/redis';
 import { Container } from '@/components/ui/Container';
 
 function NavLink({
@@ -34,10 +36,10 @@ function Links() {
     </nav>
   );
 }
-function TotalPageViews() {
+async function TotalPageViews() {
   let views: number;
   if (env.VERCEL_ENV === 'production') {
-    views = 1;
+    views = await redis.incr(kvKeys.totalPageViews);
   } else {
     views = 345678;
   }
@@ -58,14 +60,23 @@ type VisitorGeolocation = {
   flag: string;
 };
 async function LastVisitorInfo() {
+  // Displays the previous address of the current access user
   let lastVisitor: VisitorGeolocation | undefined = undefined;
   if (env.VERCEL_ENV === 'production') {
-    // const [lv, cv] = await redis.mget<VisitorGeolocation[]>(
-    //   kvKeys.lastVisitor,
-    //   kvKeys.currentVisitor
-    // )
-    // lastVisitor = lv
-    // await redis.set(kvKeys.lastVisitor, cv)
+    const [lv, cv] = await redis.mget(
+      [kvKeys.lastVisitor, kvKeys.currentVisitor],
+      () => {}
+    );
+    lastVisitor = lv ? JSON.parse(lv) : undefined;
+    // The current user address is saved and displayed for the next user visit
+    await redis.set(
+      kvKeys.lastVisitor,
+      cv ??
+        JSON.stringify({
+          country: 'US',
+          flag: '🇺🇸',
+        })
+    );
   }
 
   if (!lastVisitor) {

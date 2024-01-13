@@ -1,9 +1,26 @@
+import { env } from 'process';
 import { NextRequest, NextResponse } from 'next/server';
 import { authMiddleware, redirectToSignIn } from '@clerk/nextjs';
+import countries from '~/lib/countries.json';
+
+import { kvKeys } from './config/kv';
+// import redis from './lib/redis';
 
 async function beforeAuthMiddleware(req: NextRequest) {
   const { geo, nextUrl } = req;
+  if (geo && env.VERCEL_ENV === 'production') {
+    const country = geo.country;
+    const city = geo.city;
 
+    const countryInfo = countries.find((x) => x.cca2 === country);
+    if (countryInfo) {
+      const flag = countryInfo.flag;
+      // await redis.set(
+      //   kvKeys.currentVisitor,
+      //   JSON.stringify({ country, city, flag })
+      // );
+    }
+  }
   return NextResponse.next();
 }
 
