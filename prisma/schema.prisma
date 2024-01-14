@@ -38,13 +38,3 @@ model Category {
   slug        String?
   blogContent BlockContent[]
 }
-
-model SiteVistis {
-  id            Int      @id @default(autoincrement())
-  /// Daily site visits
-  siteVistis    Int?     @default(0)
-  /// Daily article visits
-  articleVistis Int?     @default(0)
-  /// daily
-  recordingTime DateTime
-}

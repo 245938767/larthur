@@ -75,6 +75,9 @@ export async function deleteCategory({ id }: { id: number }) {
   return await prismaClient.category.delete({
     where: {
       id: id,
+      blogContent:{
+        none: {}
+      }
     },
   });
 }

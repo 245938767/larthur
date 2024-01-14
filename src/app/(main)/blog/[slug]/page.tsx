@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation';
 import { getBlogPostsForSlug } from '@/api/postsApi';
 
 import { BlogPostPage } from '../BlogPostPage';
+import { env } from 'process';
+import redis from '@/lib/redis';
+import { kvKeys } from '@/config/kv';
 
 export const generateMetadata = async ({
   params,
@@ -44,7 +47,12 @@ export default async function BlogPage({
     notFound();
   }
 
-  let views = 0;
+  let views: number;
+  if (env.VERCEL_ENV === 'production') {
+    views = await redis.incr(kvKeys.postViews(post.id.toString()));
+  } else {
+    views = 30578;
+  }
 
   let reactions: number[] = [];
 

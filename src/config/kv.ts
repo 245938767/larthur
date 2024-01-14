@@ -4,4 +4,4 @@ export const kvKeys = {
   currentVisitor: 'current_visitor',
   postViews: (id: string) => `post:views:${id}`,
   postReactions: (id: string) => `post:reactions:${id}`,
-} as const
+} as const;
