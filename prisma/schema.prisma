@@ -28,7 +28,7 @@ model BlockContent {
   updatedAt        DateTime @updatedAt
   Category         Category @relation(fields: [categoryId], references: [id])
 
-  @@index([slug,categoryId])
+  @@index([slug, categoryId])
 }
 
 model Category {
@@ -37,4 +37,5 @@ model Category {
   type        String?
   slug        String?
   blogContent BlockContent[]
+  createAt    DateTime       @default(now())
 }

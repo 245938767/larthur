@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
+import { clsxm } from '@/lib/helper';
 import { Button } from '@/components/ui/Button';
 import {
   Form,
@@ -23,6 +24,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+
+import { useRefetchCategory } from './useCategory';
 
 const formSchema = z.object({
   name: z.string().min(1, { message: 'Name must be at least 1' }).max(10),
@@ -44,6 +47,8 @@ export default function CreateCategory() {
     },
   });
 
+  const refetch = useRefetchCategory();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     // open loading
     submitData({ ...values });
@@ -63,6 +68,7 @@ export default function CreateCategory() {
         return;
       }
       // close loading
+      refetch();
       // close the popover
       setOpen(false);
     },
@@ -84,7 +90,10 @@ export default function CreateCategory() {
         <PopoverTrigger asChild>
           <div className="mb-1">
             <a
-              className="group rounded-full bg-gradient-to-b from-zinc-50/50 to-white/90 px-3 py-2 shadow-sm shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:from-zinc-900/50 dark:to-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
+              className={clsxm(
+                'inline-flex items-center gap-2 justify-center rounded-lg py-2 px-3 text-sm outline-offset-2 transition active:transition-none',
+                'group rounded-full bg-gradient-to-b from-zinc-50/50 to-white/90 px-3 py-2 shadow-sm shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:from-zinc-900/50 dark:to-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20'
+              )}
               href="#"
             >
               Create

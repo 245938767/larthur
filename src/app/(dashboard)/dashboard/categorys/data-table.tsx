@@ -15,14 +15,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import Loading from '@/components/loding';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  isLoading?: boolean;
 }
 export function DataTable<TData, TValue>({
   columns,
   data,
+  isLoading = false,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -67,8 +70,10 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell colSpan={columns.length} className="h-24  text-center">
+                <div className="flex justify-center">
+                  {isLoading ? <Loading /> : 'No results.'}
+                </div>
               </TableCell>
             </TableRow>
           )}
