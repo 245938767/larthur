@@ -37,5 +37,5 @@ model Category {
   type        String?
   slug        String?
   blogContent BlockContent[]
-  createAt    DateTime       @default(now())
+  createdAt    DateTime       @default(now())
 }

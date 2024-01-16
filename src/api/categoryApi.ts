@@ -8,7 +8,9 @@ export interface CategoryWithCount extends Category {
   blogContentCount: number;
 }
 
-export async function getCategoryAllMany(): Promise<CategoryWithCount[]> {
+export async function getCategoryAllMany(
+  category?: Category
+): Promise<CategoryWithCount[]> {
   const categoriesWithCount = await prismaClient.category.findMany({
     include: {
       blogContent: {
@@ -17,6 +19,7 @@ export async function getCategoryAllMany(): Promise<CategoryWithCount[]> {
         },
       },
     },
+    where: category,
   });
   const result: CategoryWithCount[] = categoriesWithCount.map((category) => {
     return {
@@ -26,8 +29,8 @@ export async function getCategoryAllMany(): Promise<CategoryWithCount[]> {
   });
   return result;
 }
-export async function getCategorys(): Promise<Category[]> {
-  return await prismaClient.category.findMany();
+export async function getCategorys(category?: Category): Promise<Category[]> {
+  return await prismaClient.category.findMany({ where: category });
 }
 /**
  * get category
@@ -75,9 +78,9 @@ export async function deleteCategory({ id }: { id: number }) {
   return await prismaClient.category.delete({
     where: {
       id: id,
-      blogContent:{
-        none: {}
-      }
+      blogContent: {
+        none: {},
+      },
     },
   });
 }

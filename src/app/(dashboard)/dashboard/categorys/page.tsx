@@ -1,7 +1,5 @@
 'use client';
 
-import { Suspense } from 'react';
-
 import { Container } from '@/components/ui/Container';
 
 import { columns } from './columns';
@@ -17,13 +15,7 @@ export default function Categorys() {
         <div className="flex w-full justify-end">
           <CreateCategory />
         </div>
-        <Suspense>
-          <DataTable
-            columns={columns}
-            data={data ?? []}
-            isLoading={isLoading}
-          />
-        </Suspense>
+        <DataTable columns={columns} data={data ?? []} isLoading={isLoading} />
       </div>
     </Container>
   );
