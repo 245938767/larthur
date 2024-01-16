@@ -1,7 +1,7 @@
 import { getCategoryAllMany } from '@/api/categoryApi';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-const fetchCategory = async ({ queryKey: [, params] }: { queryKey: any }) => {
+const fetchCategory = async ({ queryKey: [, params] }: { queryKey: any[] }) => {
   const response = await getCategoryAllMany(params);
   return response;
 };
