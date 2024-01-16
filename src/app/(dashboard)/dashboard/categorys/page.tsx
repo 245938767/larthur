@@ -2,12 +2,13 @@
 
 import { Container } from '@/components/ui/Container';
 
-import { columns } from './columns';
+import useCategoryColumn from './columns';
 import CreateCategory from './CreateCategory';
 import { DataTable } from './data-table';
 import { useCategoryQuery } from './useCategory';
 
 export default function Categorys() {
+  const { columns } = useCategoryColumn();
   const { data, isLoading } = useCategoryQuery();
   return (
     <Container className="mt-10">
