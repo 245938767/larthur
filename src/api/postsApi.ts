@@ -109,7 +109,7 @@ export const getBlogPostsCountQuery = async ({ slug }: { slug: string }) => {
  * @param data
  * @returns
  */
-export const createBlogPost = async (revState: State, data: any) => {
+export const createBlogPost = async (data: any) => {
   const validResult = createBlogPostOmit.safeParse({
     title: data.title,
     slug: data.slug,

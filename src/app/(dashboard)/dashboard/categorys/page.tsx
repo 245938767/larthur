@@ -14,7 +14,7 @@ export default function Categorys() {
     <Container className="mt-10">
       <div className="container  py-10">
         <div className="flex w-full justify-end">
-          <CreateCategory />
+          <CreateCategory className="mb-1">Create</CreateCategory>
         </div>
         <DataTable columns={columns} data={data ?? []} isLoading={isLoading} />
       </div>

@@ -50,28 +50,53 @@ export async function getCategoryById(id: number): Promise<Category | null> {
  * @returns
  */
 export async function createCategory({
+  id,
   name,
   type,
   slug,
 }: {
+  id?: number;
   name: string;
-  type: string;
-  slug: string;
-}): Promise<'sucess' | 'name already exist' | 'create error'> {
-  const exist = await prismaClient.category.count({
-    where: { name: name },
-  });
-  if (exist > 0) {
-    return 'name already exist';
+  type?: string;
+  slug?: string;
+}): Promise<'sucess' | 'name already exist' | 'create error' | 'update error'> {
+  if (id) {
+    const exist = await prismaClient.category.count({
+      where: {
+        name: name,
+        id: {
+          not: id,
+        },
+      },
+    });
+    if (exist > 0) {
+      return 'name already exist';
+    }
+    const update = await prismaClient.category.update({
+      where: { id: id },
+      data: {
+        name: name,
+        slug: slug,
+        type: type,
+      },
+    });
+    if (update == null) return 'update error';
+  } else {
+    const exist = await prismaClient.category.count({
+      where: { name: name },
+    });
+    if (exist > 0) {
+      return 'name already exist';
+    }
+    const create = await prismaClient.category.create({
+      data: {
+        name: name,
+        slug: slug,
+        type: type,
+      },
+    });
+    if (create == null) return 'create error';
   }
-  const create = await prismaClient.category.create({
-    data: {
-      name: name,
-      slug: slug,
-      type: type,
-    },
-  });
-  if (create == null) return 'create error';
   return 'sucess';
 }
 export async function deleteCategory({ id }: { id: number }) {

@@ -6,7 +6,7 @@ export const navigationItems = [
   // { href: '/about', text: '关于' },
 ];
 export const dashboardNavigationItems = [
-  { href: '/dashboard', text: '控制面板' },
+  { href: '/dashboard', text: '仪表盘' },
   { href: '/dashboard/posts', text: '文章管理' },
   { href: '/dashboard/categorys', text: '分类' },
   { href: '/dashboard/settings', text: '设置' },

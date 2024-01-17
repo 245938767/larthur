@@ -14,6 +14,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
+import CreateCategory from './CreateCategory';
 import { useRefetchCategory } from './useCategory';
 
 interface UsePopOverButtonProps {
@@ -21,6 +22,66 @@ interface UsePopOverButtonProps {
   data: CategoryWithCount;
 }
 
+function useCategoryColumn() {
+  const refetch = useRefetchCategory();
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: deleteCategory,
+    onSuccess: () => {
+      refetch();
+    },
+    onError: () => {},
+  });
+  const columns: ColumnDef<CategoryWithCount>[] = [
+    {
+      accessorKey: 'name',
+      header: 'Name',
+    },
+    {
+      accessorKey: 'type',
+      header: 'Type',
+    },
+    {
+      accessorKey: 'slug',
+      header: 'Slug',
+    },
+    {
+      accessorKey: 'blogContentCount',
+      header: 'BlogRelation',
+      cell: ({ getValue }) => {
+        return <div className="flex justify-center">{getValue<number>()}</div>;
+      },
+    },
+    {
+      id: 'actions',
+      enableHiding: false,
+      cell({ row }) {
+        const payment = row.original;
+        return (
+          <>
+            <div className="flex items-center justify-center">
+              <CreateCategory
+                key={payment.id}
+                className="mr-2 mt-2"
+                value={payment}
+              >
+                Edit
+              </CreateCategory>
+              <PopOverButton
+                call={() => {
+                  deleteMutation({ id: payment.id });
+                  refetch();
+                }}
+                data={payment}
+              />
+            </div>
+          </>
+        );
+      },
+    },
+  ];
+  return { columns };
+}
+export default useCategoryColumn;
 const PopOverButton: React.FC<UsePopOverButtonProps> = ({ call, data }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -73,59 +134,3 @@ const PopOverButton: React.FC<UsePopOverButtonProps> = ({ call, data }) => {
     </>
   );
 };
-function useCategoryColumn() {
-  const refetch = useRefetchCategory();
-  const { mutate: deleteMutation } = useMutation({
-    mutationFn: deleteCategory,
-    onSuccess: () => {
-      refetch();
-    },
-    onError: () => {},
-  });
-  const columns: ColumnDef<CategoryWithCount>[] = [
-    {
-      accessorKey: 'name',
-      header: 'Name',
-    },
-    {
-      accessorKey: 'type',
-      header: 'Type',
-    },
-    {
-      accessorKey: 'slug',
-      header: 'Slug',
-    },
-    {
-      accessorKey: 'blogContentCount',
-      header: 'BlogRelation',
-      cell: ({ getValue }) => {
-        return <div className="flex justify-center">{getValue<number>()}</div>;
-      },
-    },
-    {
-      id: 'actions',
-      enableHiding: false,
-      cell({ row }) {
-        const payment = row.original;
-        return (
-          <>
-            <div className="flex items-center">
-              <Button variant="secondary" onClick={() => {}} className="mr-1">
-                Edit
-              </Button>
-              <PopOverButton
-                call={() => {
-                  deleteMutation({ id: payment.id });
-                  refetch();
-                }}
-                data={payment}
-              />
-            </div>
-          </>
-        );
-      },
-    },
-  ];
-  return { columns };
-}
-export default useCategoryColumn;

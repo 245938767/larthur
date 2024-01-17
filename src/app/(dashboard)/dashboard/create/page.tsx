@@ -5,33 +5,21 @@ import { Fragment, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCategorys } from '@/api/categoryApi';
 import { createBlogPost } from '@/api/postsApi';
-import { ErrorIcon, RefreshIcon, SuccessIcon } from '@/assets';
 import { Listbox, Transition } from '@headlessui/react';
 import { Category } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
 import ColorThief from 'colorthief';
-import { AnimatePresence, motion } from 'framer-motion';
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
 import { proxy, useSnapshot } from 'valtio';
 
-import { clsxm } from '@/lib/helper';
 import { rgbToHex } from '@/lib/rgb';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
+import SubmitButton from '@/components/ui/SubmitButton';
 import PlateEditor from '@/components/plate-editor';
 
-const blogPostState = proxy<{
-  title: string;
-  slug: string;
-  description: string;
-  readingTime: number;
-  mainImagebgColor?: string;
-  categoryId?: number;
-  mainImagefgColor: string;
-  mainImage: any;
-  body: any;
-}>({
+const blogInitialState = {
   title: '',
   slug: '',
   description: '',
@@ -47,28 +35,39 @@ const blogPostState = proxy<{
       children: [{ text: 'Hello, World!' }],
     },
   ],
-});
+};
+const pageInitialState = {
+  createButon: 'Normal',
+  categorySelect: [],
+  select: undefined,
+};
+
+const blogPostState = proxy<{
+  title: string;
+  slug: string;
+  description: string;
+  readingTime: number;
+  mainImagebgColor?: string;
+  categoryId?: number;
+  mainImagefgColor: string;
+  mainImage: any;
+  body: any;
+}>(blogInitialState);
 
 const pageState = proxy<{
-  createButonState: boolean;
   createButon: 'Normal' | 'Loading' | 'Error' | 'Success';
   categorySelect: Category[];
   select?: Category;
 }>({
-  createButonState: false,
   createButon: 'Normal',
   categorySelect: [],
   select: undefined,
 });
 export default function IndexPage() {
   const router = useRouter();
-
-  const { select, categorySelect, createButonState, createButon } = useSnapshot(
-    pageState,
-    {
-      sync: true,
-    }
-  );
+  const { select, categorySelect, createButon } = useSnapshot(pageState, {
+    sync: true,
+  });
 
   useEffect(() => {
     getCategorys().then((res) => {
@@ -76,7 +75,6 @@ export default function IndexPage() {
     });
   }, []);
 
-  const initialState = { message: null, errors: {} };
   const fileInputRef = useRef(null);
 
   const handleUploadClick = () => {
@@ -112,29 +110,25 @@ export default function IndexPage() {
   const formData = useSnapshot(blogPostState, { sync: true });
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    pageState.createButonState = true;
     pageState.createButon = 'Loading';
     submitData(blogPostState as any);
     return;
   };
 
   const { data: state, mutateAsync: submitData } = useMutation({
-    mutationFn: (data: any) => createBlogPost(initialState, data),
+    mutationFn: createBlogPost,
     onSuccess(data: any) {
       //@ts-ignore
       if (data.message === '') {
-        pageState.createButonState = false;
         pageState.createButon = 'Success';
         setTimeout(() => {
           router.push('/dashboard');
         }, 1000);
         return;
       }
-      pageState.createButonState = false;
       pageState.createButon = 'Error';
     },
     onError() {
-      pageState.createButonState = false;
       pageState.createButon = 'Error';
     },
   });
@@ -155,83 +149,9 @@ export default function IndexPage() {
         </div>
         {/** submit */}
         <div className=" mb-4 flex justify-end gap-2 md:flex-1">
-          <div className="mr-5 mt-3 flex ">
-            <AnimatePresence>
-              {createButon === 'Loading' && (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    duration: 1,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  }}
-                  className="  absolute "
-                >
-                  <RefreshIcon className=" justify-center  align-middle dark:fill-white" />
-                </motion.div>
-              )}
-              {createButon === 'Success' && (
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{
-                    scale: 0.8,
-                    rotate: 0,
-                  }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-                  initial={{ opacity: 0, x: 25 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 25 }}
-                  className="  absolute "
-                >
-                  <SuccessIcon className=" justify-center  fill-green-500 align-middle" />
-                </motion.div>
-              )}
-              {createButon === 'Error' && (
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{
-                    scale: 0.8,
-                    rotate: 0,
-                  }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-                  initial={{ opacity: 0, x: 25 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 25 }}
-                  className="absolute"
-                >
-                  <ErrorIcon className=" justify-center  fill-red-500 align-middle" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          <AnimatePresence>
-            <motion.div
-              className={clsxm(
-                ' w-20 pointer-events-auto relative flex h-10 rounded-full transition-opacity duration-500 hover:opacity-100',
-                'rounded-full bg-gradient-to-b from-zinc-50/70 to-white/90',
-                'shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md',
-                'dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10',
-                '[--spotlight-color:rgb(236_252_203_/_0.6)] dark:[--spotlight-color:rgb(217_249_157_/_0.07)]'
-              )}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{
-                scale: 0.8,
-                rotate: 0,
-              }}
-              transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-              initial={{ opacity: 0, x: 25 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 25 }}
-            >
-              <button
-                disabled={createButonState}
-                type="submit"
-                className=" bg-transparent px-4 py-2 text-sm font-medium hover:text-lime-600 dark:hover:text-lime-400"
-              >
-                Submit
-              </button>
-            </motion.div>
-          </AnimatePresence>
+          <SubmitButton buttonState={createButon} type="submit">
+            Submit
+          </SubmitButton>
         </div>
         {/** title */}
         <div className="mb-4">
