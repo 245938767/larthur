@@ -76,10 +76,10 @@ const defaultValues = {
     },
   ],
 };
-export default function IndexPage({ value }: { value?: any }) {
+export default function IndexPage() {
   const form = useForm<z.infer<typeof BlogPostFormSchema>>({
     resolver: zodResolver(BlogPostFormSchema),
-    defaultValues: value ? value : defaultValues,
+    defaultValues:defaultValues,
   });
 
   const { getValues, setValue, watch, setError, clearErrors } = form;
