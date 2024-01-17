@@ -24,10 +24,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import SubmitButton, { SubmitButtonState } from '@/components/ui/SubmitButton';
 
-import SubmitButton, {
-  SubmitButtonState,
-} from '../../../../components/ui/SubmitButton';
 import { useRefetchCategory } from './useCategory';
 
 export const categorySchema = z.object({
