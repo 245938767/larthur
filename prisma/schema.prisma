@@ -18,9 +18,7 @@ model BlockContent {
   mainImage        Bytes
   mainImageUrl     String?
   /// article content
-  body             Bytes
-  /// current article visits
-  articleVistis    Int      @default(0)
+  body             Bytes?
   mainImagebgColor String?
   mainImagefgColor String?
   categoryId       Int

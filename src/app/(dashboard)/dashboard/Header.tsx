@@ -3,9 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GitHubBrandIcon, GoogleBrandIcon, MailIcon } from '@/assets';
-import { url } from '@/lib';
-import { SignedIn, UserButton, useUser } from '@clerk/nextjs';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { dashboardNavigationItems } from '@/config/nav';
@@ -60,7 +57,6 @@ export default function Header() {
               </NavigationMenu>
             </div>
             {isCreatePost && <CreatePostButton />}
-            {/* <UserIcon pathname={pathname} /> */}
             <div className="pointer-events-auto">
               <ThemeSwitcher />
             </div>
@@ -68,51 +64,6 @@ export default function Header() {
         </Container>
       </div>
     </>
-  );
-}
-function UserIcon({ pathname }: { pathname: string }) {
-  const { user } = useUser();
-  const StrategyIcon = React.useMemo(() => {
-    const strategy = user?.primaryEmailAddress?.verification.strategy;
-    if (!strategy) {
-      return null;
-    }
-    switch (strategy) {
-      case 'from_oauth_github':
-        return GitHubBrandIcon as (
-          props: React.ComponentProps<'svg'>
-        ) => JSX.Element;
-      case 'from_oauth_google':
-        return GoogleBrandIcon;
-      default:
-        return MailIcon;
-    }
-  }, [user?.primaryEmailAddress?.verification.strategy]);
-  return (
-    <AnimatePresence>
-      <SignedIn key="user-info">
-        <motion.div
-          className="pointer-events-auto relative flex h-10 items-center"
-          initial={{ opacity: 0, x: 25 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 25 }}
-        >
-          <UserButton
-            afterSignOutUrl={url(pathname).href}
-            appearance={{
-              elements: {
-                avatarBox: 'w-9 h-9 ring-2 ring-white/20',
-              },
-            }}
-          />
-          {StrategyIcon && (
-            <span className="pointer-events-none absolute -bottom-1 -right-1 flex h-4 w-4 select-none items-center justify-center rounded-full bg-white dark:bg-zinc-900">
-              <StrategyIcon className="h-3 w-3" />
-            </span>
-          )}
-        </motion.div>
-      </SignedIn>
-    </AnimatePresence>
   );
 }
 function Items({

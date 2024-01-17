@@ -44,38 +44,40 @@ type GetBlogPostsOptions = {
   limit?: number;
   offset?: number;
   forDisplay?: boolean;
+  value?: BlockContent;
 };
 /**
  * the query list
  * @param param0
  * @returns
  */
-export const getLatestBlogPostsQuery = async ({
+export async function getLatestBlogPostsQuery({
   limit = 5,
   forDisplay = true,
-}: GetBlogPostsOptions) => {
+  value,
+}: GetBlogPostsOptions) {
   return await prismaClient.blockContent.findMany({
     select: {
       id: true,
       title: true,
       slug: true,
       readingTime: true,
+      description: true,
       mainImagebgColor: true,
       mainImagefgColor: true,
       mainImage: true,
+      mainImageUrl: true,
       createdAt: true,
       updatedAt: true,
       Category: true,
     },
-    // where:{
-    //   published:true
-    // },
+    where: value,
     take: limit,
     orderBy: {
       createdAt: 'desc',
     },
   });
-};
+}
 
 export const getBlogPostsForSlug = async ({ slug = '' }: { slug: string }) => {
   return await prismaClient.blockContent.findFirst({

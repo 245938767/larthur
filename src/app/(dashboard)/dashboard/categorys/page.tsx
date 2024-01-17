@@ -1,10 +1,10 @@
 'use client';
 
 import { Container } from '@/components/ui/Container';
+import { DataTable } from '@/components/common/data-table';
 
 import useCategoryColumn from './columns';
 import CreateCategory from './CreateCategory';
-import { DataTable } from './data-table';
 import { useCategoryQuery } from './useCategory';
 
 export default function Categorys() {
