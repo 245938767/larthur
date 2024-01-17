@@ -59,18 +59,15 @@ export default function CreateCategory({
     resolver: zodResolver(categorySchema),
     defaultValues: {
       id: value?.id,
-      name: value?.name,
+      name: value?.name ?? '',
       type: value?.type ?? '',
       slug: value?.slug ?? '',
     },
   });
-  console.log(form.getValues());
 
   const refetch = useRefetchCategory();
-
   function onSubmit(values: z.infer<typeof categorySchema>) {
     // open loading
-
     setButtonState('Loading');
     submitData({ ...values });
   }
