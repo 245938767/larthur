@@ -1,11 +1,12 @@
+import { env } from 'process';
 import { type Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getBlogPostsForSlug } from '@/api/postsApi';
 
-import { BlogPostPage } from '../BlogPostPage';
-import { env } from 'process';
-import redis from '@/lib/redis';
 import { kvKeys } from '@/config/kv';
+import redis from '@/lib/redis';
+
+import { BlogPostPage } from '../BlogPostPage';
 
 export const generateMetadata = async ({
   params,
@@ -60,8 +61,8 @@ export default async function BlogPage({
   return (
     <BlogPostPage
       post={post}
-      body={JSON.parse(post.body.toString('utf-8'))}
-      mainImage={post.mainImage.toString('utf-8')}
+      body={JSON.parse(post?.body?.toString('utf-8') ?? '[]')}
+      mainImage={post.mainImage?.toString('utf-8') ?? ''}
       views={views}
       relatedViews={relatedViews}
       reactions={reactions.length > 0 ? reactions : undefined}

@@ -37,7 +37,7 @@ export function BlogPostPage({
   relatedViews,
 }: {
   post: any;
-  body: [];
+  body?: [];
   mainImage: string;
   views?: number;
   reactions?: number[];
