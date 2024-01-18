@@ -36,7 +36,9 @@ export default async function Dashboard() {
           </DataGrowthCardHeader>
           <DataGrowthCardContent>+{currentMonthCount}</DataGrowthCardContent>
           <DataGrowthCardFooter>
-            {((currentMonthCount - lastMonthCount) / currentMonthCount || 0) ??
+            {(((currentMonthCount - lastMonthCount) / currentMonthCount) *
+              100 ||
+              0) ??
               0}
             %&ensp;from last month
           </DataGrowthCardFooter>
