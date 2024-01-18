@@ -58,8 +58,13 @@ export default function usePostTable() {
         return (
           <>
             <div className="flex items-baseline justify-around">
-              <Button>Edit</Button>
-              <Button>Delete</Button>
+              <Button
+                variant="secondary"
+                href={`/dashboard/create/edit/${row.original.slug}`}
+              >
+                Edit
+              </Button>
+              <Button variant="secondary">Delete</Button>
             </div>
           </>
         );

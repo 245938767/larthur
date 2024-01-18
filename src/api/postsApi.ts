@@ -1,6 +1,6 @@
 'use server';
 
-import { BlockContent, Prisma } from '@prisma/client';
+import { BlockContent } from '@prisma/client';
 import moment from 'moment';
 
 import prismaClient from '@/lib/prisma';
@@ -43,6 +43,13 @@ export async function getLatestBlogPostsQuery({
     },
   });
 }
+export const getBlogPostBySlug = async (
+  slug: string
+): Promise<BlockContent | null> => {
+  return await prismaClient.blockContent.findFirst({
+    where: { slug: slug },
+  });
+};
 
 export const getBlogPostsForSlug = async ({ slug = '' }: { slug: string }) => {
   return await prismaClient.blockContent.findFirst({
@@ -79,10 +86,6 @@ type PostCreateState = 'error' | 'sucess' | 'database error';
  */
 export const createBlogPost = async (data: any): Promise<PostCreateState> => {
   try {
-    if (Array.isArray(data.body)) {
-      data.body = Buffer.from(JSON.stringify(data.body));
-    }
-    data.mainImage = Buffer.from(data.mainImage);
     await prismaClient.blockContent.create({
       data: data as BlockContent,
     });
@@ -92,11 +95,12 @@ export const createBlogPost = async (data: any): Promise<PostCreateState> => {
   }
 };
 
-export const updateBlogPost = async (data: Prisma.BlockContentUpdateInput) => {
+export const updateBlogPost = async (data: any) => {
   return await prismaClient.blockContent.update({
     data,
     where: {
-      slug: '',
+      slug: data.slug,
+      id: data.id,
     },
   });
 };
