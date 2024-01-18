@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getCategorys } from '@/api/categoryApi';
 import { createBlogPost, getBlogPostsCountQuery } from '@/api/postsApi';
-import { PostFormSchema, PostsSchemaConvertToDatabase } from '@/api/PostsIndex';
+import { PostFormSchema } from '@/api/PostsIndex';
 import portraitImage from '@/assets/Portrait.png';
 import { Listbox, Transition } from '@headlessui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -104,7 +104,7 @@ export default function CreateArticle({ value }: { value?: any }) {
   function onSubmit(values: z.infer<typeof BlogPostZod>) {
     pageState.createButon = 'Loading';
     const { image, ...rest } = values;
-    submitData(PostsSchemaConvertToDatabase(rest));
+    submitData(rest);
     return;
   }
 
@@ -127,11 +127,12 @@ export default function CreateArticle({ value }: { value?: any }) {
     },
   });
   const slug = watch('slug');
+  const id = watch('id');
   const mainImage = watch('mainImage');
   const queryClient = useQueryClient();
   const { data } = useQuery({
     queryKey: ['slugQuery', slug],
-    queryFn: () => getBlogPostsCountQuery({ slug: slug }),
+    queryFn: () => getBlogPostsCountQuery({ slug: slug, id: id }),
   });
   useEffect(() => {
     if (data && data.length > 0) {
@@ -309,7 +310,9 @@ export default function CreateArticle({ value }: { value?: any }) {
                     width={200}
                     height={200}
                     className="rounded-lg"
-                    src={mainImage ?? portraitImage}
+                    src={
+                      mainImage && mainImage != '' ? mainImage : portraitImage
+                    }
                     alt="preview"
                     sizes="(max-width: 100px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />

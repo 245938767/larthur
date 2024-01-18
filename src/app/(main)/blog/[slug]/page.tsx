@@ -61,8 +61,6 @@ export default async function BlogPage({
   return (
     <BlogPostPage
       post={post}
-      body={JSON.parse(post?.body?.toString('utf-8') ?? '[]')}
-      mainImage={post.mainImage?.toString('utf-8') ?? ''}
       views={views}
       relatedViews={relatedViews}
       reactions={reactions.length > 0 ? reactions : undefined}

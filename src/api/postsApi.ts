@@ -5,6 +5,11 @@ import moment from 'moment';
 
 import prismaClient from '@/lib/prisma';
 
+import {
+  DatabaseConvertToPostsSchema,
+  PostsSchemaConvertToDatabase,
+} from './PostsIndex';
+
 type GetBlogPostsOptions = {
   limit?: number;
   offset?: number;
@@ -43,16 +48,9 @@ export async function getLatestBlogPostsQuery({
     },
   });
 }
-export const getBlogPostBySlug = async (
-  slug: string
-): Promise<BlockContent | null> => {
-  return await prismaClient.blockContent.findFirst({
-    where: { slug: slug },
-  });
-};
 
 export const getBlogPostsForSlug = async ({ slug = '' }: { slug: string }) => {
-  return await prismaClient.blockContent.findFirst({
+  const data = await prismaClient.blockContent.findFirst({
     include: {
       Category: true,
     },
@@ -60,19 +58,29 @@ export const getBlogPostsForSlug = async ({ slug = '' }: { slug: string }) => {
       slug: slug,
     },
   });
+  return DatabaseConvertToPostsSchema(data as any);
 };
 /**
  *
  * @param param0 check slug is unique
  * @returns
  */
-export const getBlogPostsCountQuery = async ({ slug }: { slug: string }) => {
+export const getBlogPostsCountQuery = async ({
+  slug,
+  id,
+}: {
+  slug: string;
+  id?: number;
+}) => {
   return await prismaClient.blockContent.findMany({
     select: {
       slug: true,
     },
     where: {
       slug: slug,
+      id: {
+        not: id,
+      },
     },
   });
 };
@@ -86,9 +94,20 @@ type PostCreateState = 'error' | 'sucess' | 'database error';
  */
 export const createBlogPost = async (data: any): Promise<PostCreateState> => {
   try {
-    await prismaClient.blockContent.create({
-      data: data as BlockContent,
-    });
+    const value = PostsSchemaConvertToDatabase(data);
+
+    if (value.id) {
+      await prismaClient.blockContent.update({
+        where: {
+          id: value.id,
+        },
+        data: value as BlockContent,
+      });
+    } else {
+      await prismaClient.blockContent.create({
+        data: value as BlockContent,
+      });
+    }
     return 'sucess';
   } catch (error) {
     return 'error';
