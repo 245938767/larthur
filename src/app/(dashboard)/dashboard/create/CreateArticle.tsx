@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getCategorys } from '@/api/categoryApi';
@@ -38,10 +38,8 @@ const BlogPostZod = z
   })
   .merge(PostFormSchema);
 const pageState = proxy<{
-  createButon: 'Normal' | 'Loading' | 'Error' | 'Success';
   categorySelect: Category[];
 }>({
-  createButon: 'Normal',
   categorySelect: [],
 });
 const defaultValues = {
@@ -64,6 +62,9 @@ const defaultValues = {
   ],
 };
 export default function CreateArticle({ value }: { value?: any }) {
+  const [createButon, setCreateButon] = useState<
+    'Normal' | 'Loading' | 'Error' | 'Success'
+  >('Normal');
   const form = useForm<z.infer<typeof BlogPostZod>>({
     resolver: zodResolver(BlogPostZod),
     defaultValues: value ?? defaultValues,
@@ -71,7 +72,7 @@ export default function CreateArticle({ value }: { value?: any }) {
 
   const { setValue, watch, setError, clearErrors } = form;
   const router = useRouter();
-  const { categorySelect, createButon } = useSnapshot(pageState, {
+  const { categorySelect } = useSnapshot(pageState, {
     sync: true,
   });
 
@@ -102,8 +103,9 @@ export default function CreateArticle({ value }: { value?: any }) {
   };
 
   function onSubmit(values: z.infer<typeof BlogPostZod>) {
-    pageState.createButon = 'Loading';
+    setCreateButon('Loading');
     const { image, ...rest } = values;
+    console.log(value);
     submitData(rest);
     return;
   }
@@ -113,17 +115,17 @@ export default function CreateArticle({ value }: { value?: any }) {
     mutationFn: (data: any) => createBlogPost(data),
     onSuccess(data: PostCreateState) {
       if (data === 'sucess') {
-        pageState.createButon = 'Success';
+        setCreateButon('Success');
         setTimeout(() => {
           router.back();
-          pageState.createButon = 'Normal';
+          setCreateButon('Normal');
         }, 1000);
         return;
       }
-      pageState.createButon = 'Error';
+      setCreateButon('Error');
     },
     onError(error) {
-      pageState.createButon = 'Error';
+      setCreateButon('Error');
     },
   });
   const slug = watch('slug');

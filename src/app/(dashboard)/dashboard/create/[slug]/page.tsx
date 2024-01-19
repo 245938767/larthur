@@ -9,7 +9,7 @@ async function CreatePost({ params }: { params: { slug: string } }) {
   if (data === null) {
     return <NotFound />;
   }
-  return <CreateArticle value={data} />;
+  return <CreateArticle value={{ image: '', ...data }} />;
 }
 
 export default CreatePost;
