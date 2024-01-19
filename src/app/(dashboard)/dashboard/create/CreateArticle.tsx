@@ -105,7 +105,6 @@ export default function CreateArticle({ value }: { value?: any }) {
   function onSubmit(values: z.infer<typeof BlogPostZod>) {
     setCreateButon('Loading');
     const { image, ...rest } = values;
-    console.log(value);
     submitData(rest);
     return;
   }
