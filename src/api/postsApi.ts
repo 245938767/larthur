@@ -164,3 +164,16 @@ export const getPostCurrentTotalNum = async () => {
     lastMonthCount,
   };
 };
+
+export const DeleteBlogPostsForSlug = async ({
+  slug = '',
+}: {
+  slug: string;
+}) => {
+  const data = await prismaClient.blockContent.delete({
+    where: {
+      slug: slug,
+    },
+  });
+  return DatabaseConvertToPostsSchema(data as any);
+};

@@ -1,10 +1,23 @@
 import Link from 'next/link';
+import { DeleteBlogPostsForSlug } from '@/api/postsApi';
+import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/Button';
+import PopOverButton from '@/components/ui/PopoverButton';
+
+import { useRefetchPosts } from './usePosts';
 
 export default function usePostTable() {
+  const refetch = useRefetchPosts();
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: DeleteBlogPostsForSlug,
+    onSuccess: () => {
+      refetch();
+    },
+    onError: () => {},
+  });
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: 'title',
@@ -64,7 +77,13 @@ export default function usePostTable() {
               >
                 Edit
               </Button>
-              <Button variant="secondary">Delete</Button>
+              <PopOverButton
+                call={() => {
+                  deleteMutation({ slug: row.original.slug });
+                  refetch();
+                }}
+                data={row.original.id}
+              />
             </div>
           </>
         );
