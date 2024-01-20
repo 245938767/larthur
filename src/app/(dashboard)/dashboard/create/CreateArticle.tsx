@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { getCategorys } from '@/api/categoryApi';
 import { createBlogPost, getBlogPostsCountQuery } from '@/api/postsApi';
 import { PostFormSchema } from '@/api/PostsIndex';
+import { uploadImgur } from '@/api/upload';
 import portraitImage from '@/assets/Portrait.png';
 import { Listbox, Transition } from '@headlessui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -102,9 +103,18 @@ export default function CreateArticle({ value }: { value?: any }) {
     }
   };
 
-  function onSubmit(values: z.infer<typeof BlogPostZod>) {
+  async function onSubmit(values: z.infer<typeof BlogPostZod>) {
     setCreateButon('Loading');
     const { image, ...rest } = values;
+    // upload imgur
+    const imgur = await uploadImgur(rest.mainImage);
+    if (imgur.status === 200) {
+      rest.mainImageUrl = imgur.data.link;
+    } else {
+      setCreateButon('Error');
+      return;
+    }
+
     submitData(rest);
     return;
   }
