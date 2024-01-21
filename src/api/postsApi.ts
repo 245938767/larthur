@@ -6,10 +6,7 @@ import moment from 'moment';
 import { ImageToBlue } from '@/lib/imageBlue';
 import prismaClient from '@/lib/prisma';
 
-import {
-  DatabaseConvertToPostsSchema,
-  PostsSchemaConvertToDatabase,
-} from './PostsIndex';
+import { DatabaseConvertToPostsSchema } from './PostsIndex';
 
 type GetBlogPostsOptions = {
   limit?: number;
@@ -103,17 +100,19 @@ export const createBlogPost = async (data: any): Promise<PostCreateState> => {
       imageList[0] + ',' + Buffer.from(bluedata).toString('base64');
     data.mainImage = Buffer.from(newdata, 'utf-8');
 
-    const value = PostsSchemaConvertToDatabase(data);
-    if (value.id) {
+    if (Array.isArray(data.body)) {
+      data.body = Buffer.from(JSON.stringify(data.body));
+    }
+    if (data.id) {
       await prismaClient.blockContent.update({
         where: {
-          id: value.id,
+          id: data.id,
         },
-        data: value as BlockContent,
+        data: data as BlockContent,
       });
     } else {
       await prismaClient.blockContent.create({
-        data: value as BlockContent,
+        data: data as BlockContent,
       });
     }
     return 'sucess';
