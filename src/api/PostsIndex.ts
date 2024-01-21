@@ -32,11 +32,11 @@ export const PostsSchemaConvertToDatabase = (
     if (Array.isArray(draft.body)) {
       draft.body = Buffer.from(JSON.stringify(schema.body));
     }
-    draft.mainImage = Buffer.from(schema.mainImage);
   });
 export const DatabaseConvertToPostsSchema = (schema: BlockContent) =>
   produce(schema, (draft) => {
     draft.body = JSON.parse(schema.body?.toString('utf-8') ?? '[]');
-    draft.mainImage = (schema.mainImage?.toString('utf-8') ?? undefined) as any;
+    draft.mainImage = (schema.mainImage?.toString('utf-8') ??
+      undefined) as any;
     draft.mainImageUrl = schema.mainImageUrl ?? '';
   });

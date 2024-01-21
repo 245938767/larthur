@@ -140,6 +140,7 @@ export default function CreateArticle({ value }: { value?: any }) {
   const slug = watch('slug');
   const id = watch('id');
   const mainImage = watch('mainImage');
+  const mainImageUrl = watch('mainImageUrl');
   const queryClient = useQueryClient();
   const { data } = useQuery({
     queryKey: ['slugQuery', slug],
@@ -317,16 +318,28 @@ export default function CreateArticle({ value }: { value?: any }) {
                   />
                 </FormControl>
                 <FormDescription>
-                  <Image
-                    width={200}
-                    height={200}
-                    className="rounded-lg"
-                    src={
-                      mainImage && mainImage != '' ? mainImage : portraitImage
-                    }
-                    alt="preview"
-                    sizes="(max-width: 100px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
+                  {mainImageUrl && mainImageUrl != '' ? (
+                    <Image
+                      width={200}
+                      height={200}
+                      className="rounded-lg"
+                      src={mainImageUrl}
+                      blurDataURL={mainImage}
+                      alt="preview"
+                      sizes="(max-width: 100px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <Image
+                      width={200}
+                      height={200}
+                      className="rounded-lg"
+                      src={
+                        mainImage && mainImage != '' ? mainImage : portraitImage
+                      }
+                      alt="preview"
+                      sizes="(max-width: 100px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  )}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

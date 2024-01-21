@@ -101,6 +101,7 @@
     "react-lite-youtube-embed": "^2.4.0",
     "react-tweet": "^3.2.0",
     "react-wrap-balancer": "^1.1.0",
+    "sharp": "^0.33.2",
     "slate": "0.101.5",
     "slate-history": "0.100.0",
     "slate-react": "0.101.5",

@@ -17,11 +17,11 @@ export function BlogPostCard({ post, views }: { post: any; views: number }) {
     mainImage,
     mainImagebgColor,
     mainImagefgColor,
+    mainImageUrl,
     createdAt,
     Category,
     readingTime,
   } = post;
-  const baseMainImage = mainImage.toString();
 
   return (
     <Link
@@ -32,17 +32,17 @@ export function BlogPostCard({ post, views }: { post: any; views: number }) {
         {
           '--post-image-fg': mainImagefgColor,
           '--post-image-bg': mainImagebgColor,
-          '--post-image': `url(${baseMainImage}`,
+          '--post-image': `url(${mainImageUrl}`,
         } as React.CSSProperties
       }
     >
       <div className="relative aspect-[240/135] w-full">
         <Image
-          src={baseMainImage}
+          src={mainImageUrl}
           alt=""
           className="rounded-t-3xl object-cover"
           placeholder="blur"
-          blurDataURL={baseMainImage}
+          blurDataURL={mainImage.toString()}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw"
         />

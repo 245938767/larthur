@@ -24,17 +24,14 @@ export default function usePostTable() {
       header: 'Title',
     },
     {
-      accessorKey: 'mainImage',
+      accessorKey: 'mainImageUrl',
       header: 'Image',
       cell(props) {
-        const data = Buffer.from(props.row.original?.mainImage?.data).toString(
-          'utf-8'
-        );
         return (
           <>
             <Avatar>
               <Avatar>
-                <AvatarImage src={data} alt="" />
+                <AvatarImage src={props.row.original?.mainImageUrl} alt="" />
                 <AvatarFallback>Title</AvatarFallback>
               </Avatar>
             </Avatar>

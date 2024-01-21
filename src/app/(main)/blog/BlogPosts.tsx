@@ -14,7 +14,7 @@ export async function BlogPosts({ limit = 5 }) {
   } else {
     views = (await redis.mget(...postIdKeys)).map((x) => Number(x));
   }
-  return (
+    return (
     <>
       {posts.map((post: any, idx: number) => (
         <BlogPostCard post={post} views={views[idx] ?? 0} key={post.id} />

@@ -72,7 +72,7 @@ export function BlogPostPage({
               >
                 <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/50 md:block md:after:block">
                   <Image
-                    src={post.mainImage}
+                    src={post.mainImageUrl}
                     alt=""
                     className="select-none"
                     unoptimized
@@ -81,7 +81,7 @@ export function BlogPostPage({
                   />
                 </div>
                 <Image
-                  src={post.mainImage}
+                  src={post.mainImageUrl}
                   alt={post.title}
                   className="select-none rounded-2xl ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 md:rounded-3xl"
                   placeholder="blur"

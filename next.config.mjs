@@ -7,7 +7,7 @@ const nextConfig = {
     },
   },
   images: {
-    domains: ['img.clerk.com'],
+    domains: ['i.imgur.com'],
   },
 };
 

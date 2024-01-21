@@ -3,6 +3,7 @@
 import { BlockContent } from '@prisma/client';
 import moment from 'moment';
 
+import { ImageToBlue } from '@/lib/imageBlue';
 import prismaClient from '@/lib/prisma';
 
 import {
@@ -94,8 +95,15 @@ type PostCreateState = 'error' | 'sucess' | 'database error';
  */
 export const createBlogPost = async (data: any): Promise<PostCreateState> => {
   try {
-    const value = PostsSchemaConvertToDatabase(data);
+    // the image blur
+    const imageList = data.mainImage.split(',');
+    let buffer = Buffer.from(imageList[1], 'base64');
+    const { data: bluedata, info } = await ImageToBlue(buffer);
+    const newdata =
+      imageList[0] + ',' + Buffer.from(bluedata).toString('base64');
+    data.mainImage = Buffer.from(newdata, 'utf-8');
 
+    const value = PostsSchemaConvertToDatabase(data);
     if (value.id) {
       await prismaClient.blockContent.update({
         where: {
