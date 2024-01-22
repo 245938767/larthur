@@ -23,7 +23,7 @@ export async function getLatestBlogPostsQuery({
   limit = 5,
   forDisplay = true,
   value,
-}: GetBlogPostsOptions): Promise<BlockContent[]> {
+}: GetBlogPostsOptions) {
   return await prismaClient.blockContent.findMany({
     select: {
       id: true,
