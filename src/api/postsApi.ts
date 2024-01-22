@@ -23,7 +23,7 @@ export async function getLatestBlogPostsQuery({
   limit = 5,
   forDisplay = true,
   value,
-}: GetBlogPostsOptions) {
+}: GetBlogPostsOptions): Promise<BlockContent[]> {
   return await prismaClient.blockContent.findMany({
     select: {
       id: true,
@@ -96,8 +96,8 @@ export const createBlogPost = async (data: any): Promise<PostCreateState> => {
     const imageList = data.mainImage.split(',');
     let buffer = Buffer.from(imageList[1], 'base64');
     const { data: bluedata, info } = await ImageToBlue(buffer);
-    const newdata =
-      imageList[0] + ',' + Buffer.from(bluedata).toString('base64');
+    const newdata = `${imageList[0]},${Buffer.from(bluedata).toString('base64')}`;
+    // base64 string convert buffer
     data.mainImage = Buffer.from(newdata, 'utf-8');
 
     if (Array.isArray(data.body)) {

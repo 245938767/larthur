@@ -12,9 +12,9 @@ export async function BlogPosts({ limit = 5 }) {
   if (process.env.VERCEL_ENV === 'development') {
     views = posts.map(() => Math.floor(Math.random() * 1000));
   } else {
-    views = (await redis.mget(...postIdKeys)).map((x) => Number(x));
+    views = (await redis.mget(...postIdKeys)).map((x: any) => Number(x));
   }
-    return (
+  return (
     <>
       {posts.map((post: any, idx: number) => (
         <BlogPostCard post={post} views={views[idx] ?? 0} key={post.id} />

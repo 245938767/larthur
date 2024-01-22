@@ -9,6 +9,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
+    "dev:turbo": "next dev --turbo",
     "typecheck": "tsc --noEmit",
     "db:push": "prisma db push ",
     "db:generate": "prisma generate "
@@ -127,6 +128,7 @@
     "eslint-plugin-unused-imports": "^3.0.0",
     "postcss": "^8.4.33",
     "prettier": "^3.1.1",
+    "turbo": "^1.11.3",
     "prisma": "^5.7.1",
     "tailwindcss": "^3.4.1",
     "typescript": "5.3.3"
