@@ -1,3 +1,5 @@
+'use server';
+
 import sharp from 'sharp';
 
 export const ImageToBlue = async (input: any) => {

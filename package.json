@@ -102,7 +102,7 @@
     "react-lite-youtube-embed": "^2.4.0",
     "react-tweet": "^3.2.0",
     "react-wrap-balancer": "^1.1.0",
-    "sharp": "^0.33.2",
+    "sharp": "^0.32.6",
     "slate": "0.101.5",
     "slate-history": "0.100.0",
     "slate-react": "0.101.5",
@@ -128,9 +128,9 @@
     "eslint-plugin-unused-imports": "^3.0.0",
     "postcss": "^8.4.33",
     "prettier": "^3.1.1",
-    "turbo": "^1.11.3",
     "prisma": "^5.7.1",
     "tailwindcss": "^3.4.1",
+    "turbo": "^1.11.3",
     "typescript": "5.3.3"
   }
 }
