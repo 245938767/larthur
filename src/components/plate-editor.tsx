@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { cn } from '@udecode/cn';
 import { CommentsProvider } from '@udecode/plate-comments';
 import { Plate } from '@udecode/plate-common';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
+import { clsxm } from '@/lib/helper';
 import { commentsUsers, myUserId } from '@/lib/plate/comments';
 import { MENTIONABLES } from '@/lib/plate/mentionables';
 import { plugins } from '@/lib/plate/plate-plugins';
@@ -35,7 +35,7 @@ export default function PlateEditor({
         <Plate plugins={plugins} value={value} onChange={onChange} {...props}>
           <div
             ref={containerRef}
-            className={cn(
+            className={clsxm(
               // Block selection
               '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4'
             )}
