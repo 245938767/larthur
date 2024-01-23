@@ -19,6 +19,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Balancer from 'react-wrap-balancer';
 
+import { clsxm } from '@/lib/helper';
 import { prettifyNumber } from '@/lib/math';
 import { plugins } from '@/lib/plate/plate-plugins';
 import { Button } from '@/components/ui/Button';
@@ -31,6 +32,7 @@ import { FloatingToolbar } from '@/components/plate-ui/floating-toolbar';
 import { TooltipProvider } from '@/components/plate-ui/tooltip';
 
 import { BlogPostCard } from './BlogPostCard';
+import { BlogPostTableOfContents } from './BlogPostTableOfContents';
 
 export function BlogPostPage({
   post,
@@ -50,7 +52,12 @@ export function BlogPostPage({
       <div className="w-full md:flex md:justify-between xl:relative">
         <aside className="hidden w-[160px] shrink-0 lg:block">
           <div className="sticky top-2 pt-20">
-            {/* <BlogPostTableOfContents headings={post.headings} /> */}
+            <BlogPostTableOfContents
+              headings={post.body.filter(
+                (x: any) =>
+                  x.type === 'h1' || 'h2' || 'h3' || 'h4' || 'h5' || 'h6'
+              )}
+            />
           </div>
         </aside>
         <div className="max-w-2xl md:flex-1 md:shrink-0">
@@ -173,7 +180,7 @@ export function BlogPostPage({
                 </span>
               </motion.div>
             </header>
-            <div className="relative  aspect-[240/135] w-full py-5 md:mb-12 md:w-[110%]">
+            <div className="relative aspect-[240/135] w-full py-5 md:mb-12 md:w-[110%]">
               <TooltipProvider
                 disableHoverableContent
                 delayDuration={500}
@@ -183,11 +190,18 @@ export function BlogPostPage({
                   {/* TODO user information */}
                   <CommentsProvider users={{}} myUserId={'1'}>
                     <Plate plugins={plugins} initialValue={post.body} readOnly>
-                      <div ref={containerRef}>
+                      <div
+                        ref={containerRef}
+                        className={clsxm(
+                          // Block selection
+                          '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4'
+                        )}
+                      >
+                        <Editor variant="ghost" />
+
                         <FloatingToolbar>
                           <CommentToolbarButton />
                         </FloatingToolbar>
-                        <Editor variant="ghost" />
                         <CommentsPopover />
                         <CursorOverlay containerRef={containerRef} />
                       </div>

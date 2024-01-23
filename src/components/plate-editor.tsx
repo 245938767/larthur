@@ -9,7 +9,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { clsxm } from '@/lib/helper';
 import { commentsUsers, myUserId } from '@/lib/plate/comments';
 import { MENTIONABLES } from '@/lib/plate/mentionables';
-import { plugins } from '@/lib/plate/plate-plugins';
+import { pluginsEditor } from '@/lib/plate/plate-plugins';
 import { CommentsPopover } from '@/components/plate-ui/comments-popover';
 import { CursorOverlay } from '@/components/plate-ui/cursor-overlay';
 import { Editor } from '@/components/plate-ui/editor';
@@ -32,7 +32,12 @@ export default function PlateEditor({
   return (
     <DndProvider backend={HTML5Backend}>
       <CommentsProvider users={commentsUsers} myUserId={myUserId}>
-        <Plate plugins={plugins} value={value} onChange={onChange} {...props}>
+        <Plate
+          plugins={pluginsEditor}
+          value={value}
+          onChange={onChange}
+          {...props}
+        >
           <div
             ref={containerRef}
             className={clsxm(

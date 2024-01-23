@@ -3,6 +3,8 @@ import { withRef, withVariants } from '@udecode/cn';
 import { PlateElement } from '@udecode/plate-common';
 import { cva } from 'class-variance-authority';
 
+import { ClientOnly } from '../ClientOnly';
+
 const headingVariants = cva('', {
   variants: {
     variant: {
@@ -26,6 +28,34 @@ const HeadingElementVariants = withVariants(PlateElement, headingVariants, [
 ]);
 
 export const HeadingElement = withRef<typeof HeadingElementVariants>(
+  ({ variant = 'h1', isFirstBlock, children, ...props }, ref) => {
+    const { element, editor } = props;
+
+    const Element = variant!;
+
+    return (
+      <ClientOnly>
+        <HeadingElementVariants
+          ref={ref}
+          asChild
+          variant={variant}
+          isFirstBlock={element === editor.children[0]}
+          {...props}
+        >
+          <Element data-blockid={element.id}>
+            <a
+              id={`${element.id as string}`}
+              href={`#${element.id as string}`}
+            />
+            {children}
+          </Element>
+        </HeadingElementVariants>
+      </ClientOnly>
+    );
+  }
+);
+
+export const HeadingElementEditor = withRef<typeof HeadingElementVariants>(
   ({ variant = 'h1', isFirstBlock, children, ...props }, ref) => {
     const { element, editor } = props;
 
