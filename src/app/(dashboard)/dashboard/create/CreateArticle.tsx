@@ -66,6 +66,7 @@ export default function CreateArticle({ value }: { value?: any }) {
   const [createButon, setCreateButon] = useState<
     'Normal' | 'Loading' | 'Error' | 'Success'
   >('Normal');
+  const [changeImage, setChangeImage] = useState(false);
   const form = useForm<z.infer<typeof BlogPostZod>>({
     resolver: zodResolver(BlogPostZod),
     defaultValues: value ?? defaultValues,
@@ -87,6 +88,7 @@ export default function CreateArticle({ value }: { value?: any }) {
     const file = event.target.files[0];
     if (file === null) return;
     if (file && file.type.startsWith('image/')) {
+      setChangeImage(true);
       const reader = new FileReader();
       setValue('image', '');
       reader.onloadend = () => {
@@ -106,13 +108,15 @@ export default function CreateArticle({ value }: { value?: any }) {
   async function onSubmit(values: z.infer<typeof BlogPostZod>) {
     setCreateButon('Loading');
     const { image, ...rest } = values;
-    // upload imgur
-    const imgur = await uploadImgur(rest.mainImage);
-    if (imgur.status === 200) {
-      rest.mainImageUrl = imgur.data.link;
-    } else {
-      setCreateButon('Error');
-      return;
+    // upload imgur, if there is change
+    if (changeImage) {
+      const imgur = await uploadImgur(rest.mainImage);
+      if (imgur.status === 200) {
+        rest.mainImageUrl = imgur.data.link;
+      } else {
+        setCreateButon('Error');
+        return;
+      }
     }
 
     submitData(rest);
@@ -121,7 +125,7 @@ export default function CreateArticle({ value }: { value?: any }) {
 
   type PostCreateState = 'error' | 'sucess' | 'database error';
   const { mutate: submitData } = useMutation({
-    mutationFn: (data: any) => createBlogPost(data),
+    mutationFn: (data: any) => createBlogPost(data, changeImage),
     onSuccess(data: PostCreateState) {
       if (data === 'sucess') {
         setCreateButon('Success');
@@ -204,7 +208,7 @@ export default function CreateArticle({ value }: { value?: any }) {
                         </span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                           <ChevronsUpDownIcon
-                            className="h-5 w-5 text-gray-400"
+                            className="size-5 text-gray-400"
                             aria-hidden="true"
                           />
                         </span>
@@ -240,7 +244,7 @@ export default function CreateArticle({ value }: { value?: any }) {
                                   {selected ? (
                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                                       <CheckIcon
-                                        className="h-5 w-5"
+                                        className="size-5"
                                         aria-hidden="true"
                                       />
                                     </span>
@@ -318,7 +322,7 @@ export default function CreateArticle({ value }: { value?: any }) {
                   />
                 </FormControl>
                 <FormDescription>
-                  {mainImageUrl && mainImageUrl != '' ? (
+                  {mainImageUrl && mainImageUrl != '' && !changeImage ? (
                     <Image
                       width={200}
                       height={200}
@@ -372,13 +376,15 @@ export default function CreateArticle({ value }: { value?: any }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Body</FormLabel>
+                <FormMessage />
                 <FormControl>
                   <PlateEditor
-                    onChange={(value) => (field.value = value)}
+                    onChange={(value) => {
+                      setValue('body', value);
+                    }}
                     value={field.value}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />

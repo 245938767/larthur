@@ -90,15 +90,20 @@ type PostCreateState = 'error' | 'sucess' | 'database error';
  * @param data
  * @returns
  */
-export const createBlogPost = async (data: any): Promise<PostCreateState> => {
+export const createBlogPost = async (
+  data: any,
+  isChange: boolean
+): Promise<PostCreateState> => {
   try {
     // the image blur
-    const imageList = data.mainImage.split(',');
-    let buffer = Buffer.from(imageList[1], 'base64');
-    const { data: bluedata, info } = await ImageToBlue(buffer);
-    const newdata = `${imageList[0]},${Buffer.from(bluedata).toString('base64')}`;
-    // base64 string convert buffer
-    data.mainImage = Buffer.from(newdata, 'utf-8');
+    if (isChange) {
+      const imageList = data.mainImage.split(',');
+      let buffer = Buffer.from(imageList[1], 'base64');
+      const { data: bluedata, info } = await ImageToBlue(buffer);
+      const newdata = `${imageList[0]},${Buffer.from(bluedata).toString('base64')}`;
+      // base64 string convert buffer
+      data.mainImage = Buffer.from(newdata, 'utf-8');
+    }
 
     if (Array.isArray(data.body)) {
       data.body = Buffer.from(JSON.stringify(data.body));
