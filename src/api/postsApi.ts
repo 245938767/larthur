@@ -103,6 +103,8 @@ export const createBlogPost = async (
       const newdata = `${imageList[0]},${Buffer.from(bluedata).toString('base64')}`;
       // base64 string convert buffer
       data.mainImage = Buffer.from(newdata, 'utf-8');
+    } else {
+      data.mainImage = Buffer.from(data.mainImage, 'utf-8');
     }
 
     if (Array.isArray(data.body)) {
@@ -122,6 +124,7 @@ export const createBlogPost = async (
     }
     return 'sucess';
   } catch (error) {
+    console.error(error);
     return 'error';
   }
 };
