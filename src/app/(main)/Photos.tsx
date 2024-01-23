@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import React from "react";
+import React from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
-import image5 from "../../assets/highlights/highlight-cali.jpeg";
-import image1 from "../../assets/highlights/highlight-cat.jpeg";
-import image3 from "../../assets/highlights/highlight-controller.jpg";
-import image6 from "../../assets/highlights/highlight-push.png";
-import image2 from "../../assets/highlights/highlight-workshop.jpg";
-import image4 from "../../assets/highlights/highlight-zolplay.jpg";
+import image3 from '../../assets/highlights/go-m.jpeg';
+import image1 from '../../assets/highlights/go-shanghai.jpeg';
+import image2 from '../../assets/highlights/my-first-computer.jpeg';
+import image5 from '../../assets/highlights/sky.jpeg';
+import image4 from '../../assets/highlights/to-skiing.jpeg';
+import image6 from '../../assets/highlights/xiamen-wuyuan-bay.jpeg';
 
-const images = [image1, image2, image3, image4, image5, image6];
+const images = [image3, image1, image2, image4, image5, image6];
 const alts = [
-  "我的猫躺在我的工作台桌子上的键盘旁边",
-  "我在西雅图城市大学举办的技术演讲",
-  "Xbox 团队给我专属定制的控制器",
-  "佐玩的办公室大厅，背景墙挂着一个黑色的佐玩氛围布",
-  "我举着酒杯看着手机",
-  "我在用 Ableton Push 制作电子乐",
+  '逛M豆商城',
+  '第一次到上海',
+  '我大学自己购买的第一台Macbook',
+  '第一次去滑雪场玩',
+  '在上海找工作时下午的夕阳',
+  '在厦门首次环岛骑行',
 ];
 
 export function Photos() {
@@ -37,11 +37,11 @@ export function Photos() {
       setWidth(window.innerWidth / images.length - 4 * images.length);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     handleResize();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -52,10 +52,10 @@ export function Photos() {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{
         delay: 0.5,
-        type: "spring",
+        type: 'spring',
       }}
     >
-      <div className="-my-4 flex w-full snap-x snap-proximity scroll-pl-4 justify-start gap-4 overflow-x-auto px-4 py-4 sm:gap-6 md:justify-center md:overflow-x-hidden md:px-0">
+      <div className="-my-4 flex w-full snap-x snap-proximity scroll-pl-4 justify-start gap-4 overflow-x-auto p-4 sm:gap-6 md:justify-center md:overflow-x-hidden md:px-0">
         {images.map((image, idx) => (
           <motion.div
             key={image.src}
@@ -63,7 +63,7 @@ export function Photos() {
             animate={{
               width,
               opacity: isCompact ? 1 : 0.85,
-              filter: isCompact ? "grayscale(0)" : "grayscale(0.5)",
+              filter: isCompact ? 'grayscale(0)' : 'grayscale(0.5)',
               rotate: idx % 2 === 0 ? 2 : -1,
             }}
             whileHover={
@@ -72,14 +72,14 @@ export function Photos() {
                 : {
                     width: expandedWidth,
                     opacity: 1,
-                    filter: "grayscale(0)",
+                    filter: 'grayscale(0)',
                   }
             }
             layout
           >
             <Image
               src={image}
-              alt={alts[idx] ?? ""}
+              alt={alts[idx] ?? ''}
               sizes="(min-width: 640px) 18rem, 11rem"
               className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
               priority

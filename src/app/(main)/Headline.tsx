@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Balancer from "react-wrap-balancer";
+import { motion } from 'framer-motion';
+import Balancer from 'react-wrap-balancer';
 
-import { SparkleIcon, UserSecurityIcon } from "../../assets";
-import { SocialLink } from "@/components/links/SocialLink";
+import { SocialLink } from '@/components/links/SocialLink';
+
+import { SparkleIcon } from '../../assets';
 
 function Developer() {
   return (
     <span className="group">
       <span className="font-mono">&lt;</span>开发者
       <span className="font-mono">/&gt;</span>
-      {/* <span className="invisible inline-flex text-zinc-300 before:content-['|'] group-hover:visible group-hover:animate-typing dark:text-zinc-500" /> */}
+      <span className="invisible inline-flex text-zinc-300 before:content-['|'] group-hover:visible  dark:text-zinc-500" />
     </span>
   );
 }
@@ -25,7 +26,7 @@ function Designer() {
         <span className="absolute -bottom-0.5 -left-0.5 h-1.5 w-1.5 border border-lime-700 bg-zinc-50 dark:border-lime-400" />
         <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 border border-lime-700 bg-zinc-50 dark:border-lime-400" />
       </span>
-      设计师
+      游戏控
     </span>
   );
 }
@@ -34,16 +35,7 @@ function OCD() {
   return (
     <span className="group">
       <SparkleIcon className="mr-1 inline-flex transform-gpu transition-transform duration-500 group-hover:rotate-180" />
-      <span>细节控</span>
-    </span>
-  );
-}
-
-function Founder() {
-  return (
-    <span className="group">
-      <UserSecurityIcon className="mr-1 inline-flex group-hover:fill-zinc-600/20 dark:group-hover:fill-zinc-200/20" />
-      <span>创始人</span>
+      <span>深度分析者</span>
     </span>
   );
 }
@@ -56,7 +48,7 @@ export function Headline() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          type: "spring",
+          type: 'spring',
           damping: 25,
           stiffness: 100,
           duration: 0.3,
@@ -64,14 +56,14 @@ export function Headline() {
       >
         <Developer />，<Designer />，
         <br />
-        <OCD />，<Founder />
+        <OCD />
       </motion.h1>
       <motion.p
         className="mt-6 text-base text-zinc-600 dark:text-zinc-400"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          type: "spring",
+          type: 'spring',
           damping: 30,
           stiffness: 85,
           duration: 0.3,
@@ -81,7 +73,7 @@ export function Headline() {
         <Balancer>
           我是 Larthur
           <br />
-          一个全栈开发者。
+          一名软件工程师。
         </Balancer>
       </motion.p>
       <motion.div
@@ -89,7 +81,7 @@ export function Headline() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          type: "spring",
+          type: 'spring',
           damping: 50,
           stiffness: 90,
           duration: 0.35,
@@ -97,17 +89,17 @@ export function Headline() {
         }}
       >
         <SocialLink
-          href="https://larthur.vercel.app/github"
+          href="https://github.com/245938767"
           aria-label="我的 GitHub"
           platform="github"
         />
         <SocialLink
-          href="https://larthur.vercel.app/tg"
-          aria-label="我的 Telegram"
-          platform="telegram"
+          href="https://twitter.com/liu245938767"
+          aria-label="我的推特"
+          platform="twitter"
         />
         <SocialLink
-          href="mailto:hi@cali.so"
+          href="mailto:liu245938767@gmail.com"
           aria-label="我的邮箱"
           platform="mail"
         />
