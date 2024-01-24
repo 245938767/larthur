@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { DeleteBlogPostsForSlug } from '@/api/postsApi';
 import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
+import moment from 'moment';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/Button';
@@ -29,12 +30,14 @@ export default function usePostTable() {
       cell(props) {
         return (
           <>
-            <Avatar>
+            <Link href={`/blog/${props.row.original.slug}`}>
               <Avatar>
-                <AvatarImage src={props.row.original?.mainImageUrl} alt="" />
-                <AvatarFallback>Title</AvatarFallback>
+                <Avatar>
+                  <AvatarImage src={props.row.original?.mainImageUrl} alt="" />
+                  <AvatarFallback>Title</AvatarFallback>
+                </Avatar>
               </Avatar>
-            </Avatar>
+            </Link>
           </>
         );
       },
@@ -60,6 +63,13 @@ export default function usePostTable() {
     {
       accessorKey: 'description',
       header: 'Description',
+    },
+    {
+      accessorKey: 'createdAt',
+      header: 'CreateTime',
+      cell(props) {
+        return <>{moment(props.row.original.createdAt).format('YYYY-MM-DD')}</>;
+      },
     },
     {
       id: 'actions',

@@ -25,7 +25,7 @@ const resume: Resume[] = [
     },
   },
   {
-    company: 'Yardi',
+    company: 'Kooboo',
     title: 'C#开发实习',
     logo: koobooLogo,
     start: '2022',

@@ -24,7 +24,6 @@ export default function BlogHomePage() {
             <BlogPosts />
           </div>
           <aside className="space-y-10 lg:sticky lg:top-8 lg:h-fit lg:pl-16 xl:pl-20">
-            {/* <Newsletter /> */}
             <Resume />
           </aside>
         </div>
