@@ -185,7 +185,11 @@ export default function CreateArticle({ value }: { value?: any }) {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter title name" {...field}></Input>
+                  <Input
+                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
+                    placeholder="Enter title name"
+                    {...field}
+                  ></Input>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -201,7 +205,7 @@ export default function CreateArticle({ value }: { value?: any }) {
                 <FormControl>
                   <Listbox {...field}>
                     <div className="relative mt-1">
-                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                      <Listbox.Button className="peer relative block w-full rounded-md border border-gray-200 py-2  pl-5 pr-10 text-left text-sm shadow-md outline-2  placeholder:text-gray-500 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                         <span className="block truncate">
                           {categorySelect.find((x) => x.id === field.value)
                             ?.name ?? 'Please select'}
@@ -219,15 +223,15 @@ export default function CreateArticle({ value }: { value?: any }) {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none dark:bg-black sm:text-sm">
                           {categorySelect.map((person, personIdx) => (
                             <Listbox.Option
                               key={personIdx}
                               className={({ active }) =>
                                 `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                   active
-                                    ? 'bg-lime-500 text-lime-900'
-                                    : 'text-gray-900'
+                                    ? 'bg-lime-500 text-lime-900 '
+                                    : 'text-gray-900 dark:text-white'
                                 }`
                               }
                               value={person.id}
@@ -314,6 +318,7 @@ export default function CreateArticle({ value }: { value?: any }) {
                 <FormControl>
                   <Input
                     {...field}
+                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500"
                     type="file"
                     value={field.value}
                     ref={field.ref}

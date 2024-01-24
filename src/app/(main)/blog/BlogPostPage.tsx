@@ -24,11 +24,8 @@ import { prettifyNumber } from '@/lib/math';
 import { plugins } from '@/lib/plate/plate-plugins';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
-import { CommentToolbarButton } from '@/components/plate-ui/comment-toolbar-button';
-import { CommentsPopover } from '@/components/plate-ui/comments-popover';
 import { CursorOverlay } from '@/components/plate-ui/cursor-overlay';
 import { Editor } from '@/components/plate-ui/editor';
-import { FloatingToolbar } from '@/components/plate-ui/floating-toolbar';
 import { TooltipProvider } from '@/components/plate-ui/tooltip';
 
 import { BlogPostCard } from './BlogPostCard';
@@ -199,10 +196,10 @@ export function BlogPostPage({
                       >
                         <Editor variant="ghost" />
 
-                        <FloatingToolbar>
+                        {/* <FloatingToolbar>
                           <CommentToolbarButton />
-                        </FloatingToolbar>
-                        <CommentsPopover />
+                        </FloatingToolbar> */}
+                        {/* <CommentsPopover /> */}
                         <CursorOverlay containerRef={containerRef} />
                       </div>
                     </Plate>

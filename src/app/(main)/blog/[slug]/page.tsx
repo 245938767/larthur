@@ -1,4 +1,5 @@
 import { env } from 'process';
+import { Suspense } from 'react';
 import { type Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getBlogPostsForSlug } from '@/api/postsApi';
@@ -18,7 +19,7 @@ export const generateMetadata = async ({
     notFound();
   }
 
-  const { title, description, mainImage } = post;
+  const { title, description } = post;
 
   return {
     title,
@@ -59,11 +60,13 @@ export default async function BlogPage({
 
   let relatedViews: number[] = [];
   return (
-    <BlogPostPage
-      post={post}
-      views={views}
-      relatedViews={relatedViews}
-      reactions={reactions.length > 0 ? reactions : undefined}
-    />
+    <Suspense>
+      <BlogPostPage
+        post={post}
+        views={views}
+        relatedViews={relatedViews}
+        reactions={reactions.length > 0 ? reactions : undefined}
+      />
+    </Suspense>
   );
 }

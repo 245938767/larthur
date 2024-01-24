@@ -1,4 +1,4 @@
-import './globals.css';
+import '@/styles/globals.css';
 import './clerk.css';
 import './prism.css';
 

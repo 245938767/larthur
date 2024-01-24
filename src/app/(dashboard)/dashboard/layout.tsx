@@ -1,5 +1,3 @@
-import '@/styles/globals.css';
-
 import { Suspense } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
