@@ -3,6 +3,7 @@
 import { CategoryWithCount, deleteCategory } from '@/api/categoryApi';
 import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
+import { toast } from 'sonner';
 
 import PopOverButton from '@/components/ui/PopoverButton';
 
@@ -55,6 +56,10 @@ function useCategoryColumn() {
               </CreateCategory>
               <PopOverButton
                 call={() => {
+                  if (payment.blogContentCount > 0) {
+                    toast.warning("Can't delete and associated data");
+                    return;
+                  }
                   deleteMutation({ id: payment.id });
                   refetch();
                 }}
