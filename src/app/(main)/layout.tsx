@@ -30,7 +30,6 @@ export default function BlogLayout({
         </div>
       </QueryProvider>
 
-      {/* <Analytics /> */}
     </>
   );
 }
