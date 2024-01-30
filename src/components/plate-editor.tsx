@@ -63,8 +63,6 @@ export default function PlateEditor({
 
             <MentionCombobox items={MENTIONABLES} />
 
-            <CommentsPopover />
-
             <CursorOverlay containerRef={containerRef} />
           </div>
         </Plate>

@@ -51,8 +51,6 @@ export function FloatingToolbarButtons() {
         </>
       )}
 
-      <CommentToolbarButton />
-
       <MoreDropdownMenu />
     </>
   );
