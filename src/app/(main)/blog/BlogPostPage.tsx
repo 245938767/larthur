@@ -47,16 +47,16 @@ export function BlogPostPage({
   return (
     <Container className="mt-16 lg:mt-32">
       <div className="w-full md:flex md:justify-between xl:relative">
-        <aside className="hidden w-[160px] shrink-0 lg:block">
-          <div className="sticky top-2 pt-20">
-            <BlogPostTableOfContents
-              headings={post.body.filter(
-                (x: any) =>
-                  x.type === 'h1' || 'h2' || 'h3' || 'h4' || 'h5' || 'h6'
-              )}
+        <aside className="hidden w-[50px] shrink-0 lg:block">
+          {/* <div className="sticky top-2 flex justify-end pt-20">
+            <BlogReactions
+              _id={post.id}
+              mood={post.mood}
+              reactions={reactions}
             />
-          </div>
+          </div> */}
         </aside>
+
         <div className="max-w-2xl md:flex-1 md:shrink-0">
           <Button
             onClick={() => router.back()}
@@ -209,13 +209,15 @@ export function BlogPostPage({
             </div>
           </article>
         </div>
-        <aside className="hidden w-[90px] shrink-0 lg:block">
-          <div className="sticky top-2 flex justify-end pt-20">
-            {/* <BlogReactions
-              _id={post.id}
-              mood={post.mood}
-              reactions={reactions}
-            /> */}
+
+        <aside className="hidden w-[200px] shrink-0 lg:block">
+          <div className="sticky top-2   pl-16 pt-20">
+            <BlogPostTableOfContents
+              headings={post.body.filter(
+                (x: any) =>
+                  x.type === 'h1' || 'h2' || 'h3' || 'h4' || 'h5' || 'h6'
+              )}
+            />
           </div>
         </aside>
       </div>
